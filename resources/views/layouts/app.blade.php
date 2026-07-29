@@ -20,8 +20,7 @@
                         </svg>
                     </span>
                     <div class="min-w-0">
-                        <p class="truncate text-sm font-semibold text-emerald-800">Mushroom Farm</p>
-                        <p class="truncate text-xs text-stone-500">Employee Management</p>
+                        <p class="truncate text-sm font-semibold text-emerald-800">{{ __('app.login.name') }}</p>
                     </div>
                 </a>
             </div>
@@ -36,7 +35,7 @@
             <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4">
                 <x-nav-link
                     href="{{ route('dashboard') }}"
-                    label="Dashboard"
+                    label="{{ __('app.nav.dashboard') }}"
                     :active="request()->routeIs('dashboard')"
                 >
                     <x-slot:icon>
@@ -48,7 +47,7 @@
 
                 <x-nav-link
                     href="{{ route('attendances.daily') }}"
-                    label="Attendance"
+                    label="{{ __('app.nav.attendance') }}"
                     :active="request()->routeIs('attendances.*')"
                 >
                     <x-slot:icon>
@@ -61,7 +60,7 @@
                 @if (auth()->user()?->isSuperAdmin())
                     <x-nav-link
                         href="{{ route('employees.index') }}"
-                        label="Employees"
+                        label="{{ __('app.nav.employees') }}"
                         :active="request()->routeIs('employees.*')"
                     >
                         <x-slot:icon>
@@ -73,7 +72,7 @@
 
                     <x-nav-link
                         href="{{ route('departments.index') }}"
-                        label="Departments"
+                        label="{{ __('app.nav.departments') }}"
                         :active="request()->routeIs('departments.*')"
                     >
                         <x-slot:icon>
@@ -82,27 +81,15 @@
                             </svg>
                         </x-slot:icon>
                     </x-nav-link>
-
-                    <x-nav-link
-                            href="{{ route('advance-types.index') }}"
-                            label="Advance Types"
-                            :active="request()->routeIs('advance-types.*')"
-                        >
-                            <x-slot:icon>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5.586a1 1 0 01.707.293l6.414 6.414a1 1 0 010 1.414l-8.586 8.586a1 1 0 01-1.414 0l-6.414-6.414A1 1 0 013 12.586V7a4 4 0 014-4z" />
-                                </svg>
-                            </x-slot:icon>
-                        </x-nav-link>
                 @endif
 
                 <div class="pt-4">
-                    <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">Payments</p>
+                    <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">{{ __('app.nav.payments') }}</p>
 
                     @if (auth()->user()?->isSuperAdmin())
                         <x-nav-link
                             href="{{ route('payrolls.index') }}"
-                            label="Payrolls"
+                            label="{{ __('app.nav.payrolls') }}"
                             :active="request()->routeIs('payrolls.*')"
                         >
                             <x-slot:icon>
@@ -115,7 +102,7 @@
 
                     <x-nav-link
                         href="{{ route('cash-advances.daily') }}"
-                        label="Cash Advances"
+                        label="{{ __('app.nav.cash_advances') }}"
                         :active="request()->routeIs('cash-advances.*')"
                     >
                         <x-slot:icon>
@@ -128,11 +115,11 @@
 
                 @if (auth()->user()?->isSuperAdmin())
                     <div class="pt-4">
-                        <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">Reports</p>
+                        <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">{{ __('app.nav.reports') }}</p>
 
                         <x-nav-link
                             href="{{ route('reports.index') }}"
-                            label="Reports"
+                            label="{{ __('app.nav.reports') }}"
                             :active="request()->routeIs('reports.*')"
                         >
                             <x-slot:icon>
@@ -144,11 +131,11 @@
                     </div>
 
                     <div class="pt-4">
-                        <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">Administration</p>
+                        <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">{{ __('app.nav.administration') }}</p>
 
                         <x-nav-link
                             href="{{ route('users.index') }}"
-                            label="Users"
+                            label="{{ __('app.nav.users') }}"
                             :active="request()->routeIs('users.*')"
                         >
                             <x-slot:icon>
@@ -158,6 +145,17 @@
                             </x-slot:icon>
                         </x-nav-link>
 
+                        <x-nav-link
+                            href="{{ route('advance-types.index') }}"
+                            label="{{ __('app.nav.advance_types') }}"
+                            :active="request()->routeIs('advance-types.*')"
+                        >
+                            <x-slot:icon>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5.586a1 1 0 01.707.293l6.414 6.414a1 1 0 010 1.414l-8.586 8.586a1 1 0 01-1.414 0l-6.414-6.414A1 1 0 013 12.586V7a4 4 0 014-4z" />
+                                </svg>
+                            </x-slot:icon>
+                        </x-nav-link>
                     </div>
                 @endif
             </nav>
@@ -171,7 +169,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
                         </span>
-                        Log out
+                        {{ __('app.nav.logout') }}
                     </button>
                 </form>
             </div>
@@ -198,9 +196,30 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                <div class="min-w-0">
+                <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-medium text-stone-900">@yield('title', 'Dashboard')</p>
                     <p class="truncate text-xs text-stone-500">{{ config('app.name', 'Mushroom Farm EMS') }}</p>
+                </div>
+
+                <div class="flex shrink-0 items-center gap-1 rounded-lg border border-stone-300 bg-white p-1 text-sm">
+                    <form method="POST" action="{{ route('locale.update', 'en') }}">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="rounded-md px-2.5 py-1 font-medium {{ app()->getLocale() === 'en' ? 'bg-emerald-600 text-white' : 'text-stone-600 hover:bg-stone-50' }}"
+                        >
+                            EN
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('locale.update', 'my') }}">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="rounded-md px-2.5 py-1 font-medium {{ app()->getLocale() === 'my' ? 'bg-emerald-600 text-white' : 'text-stone-600 hover:bg-stone-50' }}"
+                        >
+                            မြန်မာ
+                        </button>
+                    </form>
                 </div>
             </header>
 

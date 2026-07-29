@@ -6,18 +6,18 @@
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-stone-900">Attendance Report</h1>
-            <p class="mt-1 text-sm text-stone-500">Summary of attendance records by employee</p>
+            <p class="mt-1 text-sm text-stone-500">Review employee attendance performance.</p>
         </div>
         <x-button href="{{ route('reports.index') }}" variant="secondary">All Reports</x-button>
     </div>
 
     <form method="GET" action="{{ route('reports.attendance') }}" class="mb-6 grid gap-4 rounded-xl border border-stone-200 bg-white p-4 md:grid-cols-3 lg:grid-cols-6">
-        <x-form-input name="date_from" label="From date" type="date" :value="$dateFrom->toDateString()" />
-        <x-form-input name="date_to" label="To date" type="date" :value="$dateTo->toDateString()" />
-        <x-form-select name="department_id" label="Department" :options="$departments" :selected="request('department_id')" placeholder="All departments" />
-        <x-form-select name="employee_id" label="Employee" :options="$employees" :selected="request('employee_id')" placeholder="All employees" />
+        <x-form-input name="date_from" label="From Date" type="date" :value="$dateFrom->toDateString()" />
+        <x-form-input name="date_to" label="To Date" type="date" :value="$dateTo->toDateString()" />
+        <x-form-select name="department_id" label="Department" :options="$departments" :selected="request('department_id')" placeholder="All Departments" />
+        <x-form-select name="employee_id" label="Employee" :options="$employees" :selected="request('employee_id')" placeholder="All Employees" />
         <div class="flex items-end gap-2 md:col-span-2">
-            <x-button type="submit" class="w-full">Run Report</x-button>
+            <x-button type="submit" class="w-full">Filter</x-button>
             <x-button href="{{ route('reports.attendance') }}" variant="secondary" class="w-full">Reset</x-button>
         </div>
     </form>
@@ -76,7 +76,7 @@
                 @empty
                     <tr>
                         <td colspan="6" class="px-6 py-8 text-center text-sm text-stone-500">
-                            No attendance records found for this period.
+                            No attendance records found.
                         </td>
                     </tr>
                 @endforelse

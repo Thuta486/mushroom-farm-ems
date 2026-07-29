@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Attendance')
+@section('title', __('app.attendance.edit_attendance'))
 
 @section('content')
     @php
@@ -9,7 +9,7 @@
     @endphp
 
     <div class="mb-6">
-        <h1 class="text-2xl font-semibold text-stone-900">Edit Attendance</h1>
+        <h1 class="text-2xl font-semibold text-stone-900">{{ __('app.attendance.edit_attendance') }}</h1>
         <p class="mt-1 text-sm text-stone-500">
             {{ $attendance->employee->name }} · {{ $attendance->date->format('d M Y') }}
         </p>
@@ -21,7 +21,7 @@
 
         <x-form-select
             name="status"
-            label="Status"
+            label="{{ __('app.attendance.status') }}"
             :options="AttendanceStatus::options()"
             :selected="old('status', $attendance->status->value)"
             required
@@ -30,14 +30,14 @@
         <div class="grid gap-4 sm:grid-cols-2">
             <x-form-input
                 name="hours_worked"
-                label="Hours worked"
+                label="{{ __('app.attendance.hours_worked') }}"
                 type="number"
                 :value="old('hours_worked', $attendance->hours_worked)"
                 required
             />
             <x-form-input
                 name="minutes_worked"
-                label="Minutes worked"
+                label="{{ __('app.attendance.minutes_worked') }}"
                 type="number"
                 :value="old('minutes_worked', $attendance->minutes_worked)"
                 required
@@ -46,28 +46,28 @@
 
         <x-form-select
             name="work_type"
-            label="Work type"
+            label="{{ __('app.attendance.work_type') }}"
             :options="WorkType::options()"
             :selected="old('work_type', $attendance->work_type?->value)"
-            placeholder="Not set"
+            placeholder="{{ __('app.attendance.not_set') }}"
         />
 
         <x-form-textarea
             name="notes"
-            label="Notes"
+            label="{{ __('app.attendance.notes') }}"
             :value="old('notes', $attendance->notes)"
             rows="3"
         />
 
         <div class="flex flex-wrap gap-2">
-            <x-button type="submit">Save changes</x-button>
-            <x-button href="{{ route('attendances.index') }}" variant="secondary">Cancel</x-button>
+            <x-button type="submit">{{ __('app.common.save_changes') }}</x-button>
+            <x-button href="{{ route('attendances.index') }}" variant="secondary">{{ __('app.common.cancel') }}</x-button>
         </div>
     </form>
 
-    <form method="POST" action="{{ route('attendances.destroy', $attendance) }}" class="mt-4" onsubmit="return confirm('Remove this attendance record?')">
+    <form method="POST" action="{{ route('attendances.destroy', $attendance) }}" class="mt-4" onsubmit="return confirm('{{ __('app.attendance.remove_record_confirmation') }}')">
         @csrf
         @method('DELETE')
-        <x-button type="submit" variant="danger">Remove record</x-button>
+        <x-button type="submit" variant="danger">{{ __('app.attendance.remove_record') }}</x-button>
     </form>
 @endsection

@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Departments')
+@section('title', __('app.departments.title'))
 
 @section('content')
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-2xl font-semibold text-stone-900">Departments</h1>
-            <p class="mt-1 text-sm text-stone-500">Organize employees by farm area or role group</p>
+            <h1 class="text-2xl font-semibold text-stone-900">{{ __('app.departments.title') }}</h1>
+            <p class="mt-1 text-sm text-stone-500">{{ __('app.departments.subtitle') }}</p>
         </div>
-        <x-button href="{{ route('departments.create') }}">Add Department</x-button>
+        <x-button href="{{ route('departments.create') }}">{{ __('app.departments.add_department') }}</x-button>
     </div>
 
     <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
     <table class="min-w-[900px] w-full divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Employees</th>
-                    <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.departments.name') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.departments.employees') }}</th>
+                    <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-stone-100">
@@ -26,13 +26,13 @@
                         <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ $department->name }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $department->employees_count }}</td>
                         <td class="px-6 py-4 text-right text-sm">
-                            <a href="{{ route('departments.edit', $department) }}" class="font-medium text-emerald-700 hover:text-emerald-800">Edit</a>
+                            <a href="{{ route('departments.edit', $department) }}" class="font-medium text-emerald-700 hover:text-emerald-800">{{ __('app.common.edit') }}</a>
                             @if ($department->employees_count === 0)
                                 <form method="POST" action="{{ route('departments.destroy', $department) }}" class="ml-4 inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="font-medium text-red-600 hover:text-red-700" onclick="return confirm('Delete this department?')">
-                                        Delete
+                                    <button type="submit" class="font-medium text-red-600 hover:text-red-700" onclick="return confirm('{{ __('app.departments.confirm_delete') }}')">
+                                        {{ __('app.common.delete') }}
                                     </button>
                                 </form>
                             @endif
@@ -41,7 +41,7 @@
                 @empty
                     <tr>
                         <td colspan="3" class="px-6 py-8 text-center text-sm text-stone-500">
-                            No departments yet. Add departments like Harvesting, Packaging, or Cleaning.
+                            {{ __('app.departments.no_departments_yet') }}
                         </td>
                     </tr>
                 @endforelse
