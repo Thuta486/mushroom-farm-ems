@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'manager@mushroomfarm.test',
         ]);
 
-        $this->call(DepartmentSeeder::class);
+        $this->call([
+            DepartmentSeeder::class,
+            PaymentTypeSeeder::class,
+        ]);
     }
 }

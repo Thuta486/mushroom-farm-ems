@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CashAdvanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -19,4 +23,23 @@ Route::middleware('auth')->group(function (): void {
 
     Route::resource('departments', DepartmentController::class)->except(['show']);
     Route::resource('employees', EmployeeController::class);
+
+    Route::get('attendances/daily', [AttendanceController::class, 'daily'])->name('attendances.daily');
+    Route::post('attendances/daily', [AttendanceController::class, 'storeDaily'])->name('attendances.daily.store');
+    Route::resource('attendances', AttendanceController::class)->except(['create', 'store', 'show']);
+
+    Route::get('payrolls/generate', [PayrollController::class, 'generate'])->name('payrolls.generate');
+    Route::post('payrolls/generate', [PayrollController::class, 'store'])->name('payrolls.store');
+    Route::get('payrolls', [PayrollController::class, 'index'])->name('payrolls.index');
+    Route::get('payrolls/{payroll}', [PayrollController::class, 'show'])->name('payrolls.show');
+    Route::post('payrolls/{payroll}/mark-paid', [PayrollController::class, 'markPaid'])->name('payrolls.mark-paid');
+    Route::post('payrolls/{payroll}/adjustments', [PayrollController::class, 'storeAdjustment'])->name('payrolls.adjustments.store');
+    Route::delete('payrolls/{payroll}/adjustments/{adjustment}', [PayrollController::class, 'destroyAdjustment'])->name('payrolls.adjustments.destroy');
+
+    Route::resource('cash-advances', CashAdvanceController::class)->except(['show']);
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/attendance', [ReportController::class, 'attendance'])->name('reports.attendance');
+    Route::get('reports/payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
+    Route::get('reports/cash-advances', [ReportController::class, 'cashAdvances'])->name('reports.cash-advances');
 });

@@ -5,6 +5,10 @@
         'active' => 'bg-emerald-100 text-emerald-800',
         'inactive' => 'bg-amber-100 text-amber-800',
         'terminated' => 'bg-red-100 text-red-800',
+        'present' => 'bg-emerald-100 text-emerald-800',
+        'absent' => 'bg-red-100 text-red-800',
+        'paid' => 'bg-emerald-100 text-emerald-800',
+        'unpaid' => 'bg-amber-100 text-amber-800',
         default => 'bg-stone-100 text-stone-700',
     };
 
@@ -12,6 +16,10 @@
         'active' => 'Active',
         'inactive' => 'Inactive',
         'terminated' => 'Terminated',
+        'present' => 'Present',
+        'absent' => 'Absent',
+        'paid' => 'Paid',
+        'unpaid' => 'Unpaid',
         default => ucfirst((string) $status),
     };
 @endphp

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PayrollStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +38,7 @@ class Payroll extends Model
         'total_deduction' => 'decimal:2',
         'total_advances' => 'decimal:2',
         'net_pay' => 'decimal:2',
+        'status' => PayrollStatus::class,
     ];
 
     public function employee(): BelongsTo

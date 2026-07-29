@@ -12,6 +12,7 @@ class AdjustmentType extends Model
 
     protected $fillable = [
         'name',
+        'category',
     ];
 
     public function payrollAdjustments(): HasMany

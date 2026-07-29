@@ -75,6 +75,7 @@ class EmployeeController extends Controller
             'department',
             'holiday',
             'salaryHistories' => fn ($query) => $query->latest('effective_date')->limit(10),
+            'attendances' => fn ($query) => $query->latest('date')->limit(10),
         ]);
 
         return view('employees.show', compact('employee'));

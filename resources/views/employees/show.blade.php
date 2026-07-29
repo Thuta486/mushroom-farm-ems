@@ -97,4 +97,49 @@
             </tbody>
         </table>
     </div>
+
+    <div class="mt-6 rounded-xl border border-stone-200 bg-white">
+        <div class="flex items-center justify-between border-b border-stone-200 px-6 py-4">
+            <div>
+                <h2 class="text-lg font-semibold text-stone-900">Recent Attendance</h2>
+                <p class="text-sm text-stone-500">Latest work days recorded for this employee</p>
+            </div>
+            <a href="{{ route('attendances.index', ['employee_id' => $employee->id]) }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">
+                View all
+            </a>
+        </div>
+
+        <table class="min-w-full divide-y divide-stone-200">
+            <thead class="bg-stone-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Time Worked</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Work Type</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-100">
+                @forelse ($employee->attendances as $attendance)
+                    <tr>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->date->format('d M Y') }}</td>
+                        <td class="px-6 py-4">
+                            <x-status-badge :status="$attendance->status->value" />
+                        </td>
+                        <td class="px-6 py-4 text-sm text-stone-600">
+                            @if ($attendance->status->value === 'present')
+                                {{ $attendance->hours_worked }}h {{ str_pad((string) $attendance->minutes_worked, 2, '0', STR_PAD_LEFT) }}m
+                            @else
+                                —
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->work_type?->label() ?? '—' }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-8 text-center text-sm text-stone-500">No attendance records yet.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 @endsection
