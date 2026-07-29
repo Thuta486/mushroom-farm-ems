@@ -8,7 +8,10 @@
             <h1 class="text-2xl font-semibold text-stone-900">Cash Advances</h1>
             <p class="mt-1 text-sm text-stone-500">Track money given to employees before payday</p>
         </div>
-        <x-button href="{{ route('cash-advances.create') }}">Record Advance</x-button>
+        <div class="flex gap-2">
+            <x-button href="{{ route('cash-advances.daily') }}">Daily Entry</x-button>
+            <x-button href="{{ route('cash-advances.create') }}" variant="secondary">Record Single Advance</x-button>
+        </div>
     </div>
 
     <form method="GET" action="{{ route('cash-advances.index') }}" class="mb-6 grid gap-4 rounded-xl border border-stone-200 bg-white p-4 md:grid-cols-2 lg:grid-cols-4">
@@ -21,8 +24,8 @@
         </div>
     </form>
 
-    <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
-        <table class="min-w-full divide-y divide-stone-200">
+    <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+        <table class="min-w-[900px] divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Date</th>

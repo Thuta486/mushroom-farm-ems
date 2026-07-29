@@ -29,8 +29,8 @@ class StoreDailyAttendanceRequest extends FormRequest
                 Rule::exists('employees', 'id')->where('employment_status', EmploymentStatus::Active->value),
             ],
             'attendances.*.status' => ['required', Rule::enum(AttendanceStatus::class)],
-            'attendances.*.hours_worked' => ['required', 'integer', 'min:0', 'max:24'],
-            'attendances.*.minutes_worked' => ['required', 'integer', 'min:0', 'max:59'],
+            'attendances.*.hours_worked' => [ 'nullable','required_if:attendances.*.status,present', 'integer', 'min:0', 'max:24'],
+            'attendances.*.minutes_worked' => [    'nullable','required_if:attendances.*.status,present', 'integer', 'min:0', 'max:59'],
             'attendances.*.work_type' => ['nullable', Rule::enum(WorkType::class)],
             'attendances.*.notes' => ['nullable', 'string', 'max:500'],
         ];

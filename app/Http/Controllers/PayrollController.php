@@ -100,12 +100,14 @@ class PayrollController extends Controller
                         continue;
                     }
 
+                    $manual = $this->calculator->manualAdjustmentTotals($existing);
+
                     $totals = $this->calculator->calculate(
                         $employee,
                         $month,
                         $year,
-                        (float) $existing->total_bonus,
-                        (float) $existing->total_deduction,
+                        $manual['bonus'],
+                        $manual['deduction'],
                     );
 
                     $existing->update([
@@ -113,6 +115,11 @@ class PayrollController extends Controller
                         'total_worked_days' => $totals['total_worked_days'],
                         'total_worked_hours' => $totals['total_worked_hours'],
                         'total_worked_minutes' => $totals['total_worked_minutes'],
+                        'total_absent_days' => $totals['total_absent_days'],
+                        'total_absent_hours' => $totals['total_absent_hours'],
+                        'total_absent_minutes' => $totals['total_absent_minutes'],
+                        'total_bonus' => $totals['total_bonus'],
+                        'total_deduction' => $totals['total_deduction'],
                         'total_advances' => $totals['total_advances'],
                         'net_pay' => $totals['net_pay'],
                     ]);
@@ -132,8 +139,11 @@ class PayrollController extends Controller
                     'total_worked_days' => $totals['total_worked_days'],
                     'total_worked_hours' => $totals['total_worked_hours'],
                     'total_worked_minutes' => $totals['total_worked_minutes'],
-                    'total_bonus' => '0.00',
-                    'total_deduction' => '0.00',
+                    'total_absent_days' => $totals['total_absent_days'],
+                    'total_absent_hours' => $totals['total_absent_hours'],
+                    'total_absent_minutes' => $totals['total_absent_minutes'],
+                    'total_bonus' => $totals['total_bonus'],
+                    'total_deduction' => $totals['total_deduction'],
                     'total_advances' => $totals['total_advances'],
                     'net_pay' => $totals['net_pay'],
                     'status' => PayrollStatus::Unpaid,
@@ -179,6 +189,21 @@ class PayrollController extends Controller
         return redirect()
             ->route('payrolls.show', $payroll)
             ->with('success', 'Payroll marked as paid.');
+    }
+
+    public function markUnpaid(Payroll $payroll): RedirectResponse
+    {
+        if ($payroll->status === PayrollStatus::Unpaid) {
+            return redirect()
+                ->route('payrolls.show', $payroll)
+                ->with('error', 'This payroll is already marked as unpaid.');
+        }
+
+        $payroll->update(['status' => PayrollStatus::Unpaid]);
+
+        return redirect()
+            ->route('payrolls.show', $payroll)
+            ->with('success', 'Payroll marked as unpaid.');
     }
 
     public function storeAdjustment(StorePayrollAdjustmentRequest $request, Payroll $payroll): RedirectResponse

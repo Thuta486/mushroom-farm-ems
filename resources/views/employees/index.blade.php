@@ -25,8 +25,8 @@
         </div>
     </form>
 
-    <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
-        <table class="min-w-full divide-y divide-stone-200">
+    <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+    <table class="min-w-[900px] w-full divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Name</th>

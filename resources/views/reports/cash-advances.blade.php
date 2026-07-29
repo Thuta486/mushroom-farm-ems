@@ -31,12 +31,11 @@
             <p class="mt-1 text-2xl font-semibold text-emerald-700">{{ number_format($report['summary']->total_amount ?? 0, 0) }} MMK</p>
         </div>
     </div>
-
-    <div class="mb-8 overflow-hidden rounded-xl border border-stone-200 bg-white">
-        <div class="border-b border-stone-200 px-6 py-4">
+<div class="border-b border-stone-200 px-6 py-4">
             <h2 class="text-lg font-semibold text-stone-900">By Employee</h2>
         </div>
-        <table class="min-w-full divide-y divide-stone-200">
+            <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+    <table class="min-w-[900px] w-full divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Employee</th>
@@ -64,14 +63,14 @@
         </table>
     </div>
 
-    <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
-        <div class="border-b border-stone-200 px-6 py-4">
+    <div class="border-b border-stone-200 px-6 py-4">
             <h2 class="text-lg font-semibold text-stone-900">All Records</h2>
         </div>
-        <table class="min-w-full divide-y divide-stone-200">
+    <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+    <table class="min-w-[900px] w-full divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Date</th>
+                    <th class=" px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Date</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Employee</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Type</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Amount</th>

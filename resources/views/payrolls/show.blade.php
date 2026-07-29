@@ -5,9 +5,18 @@
 @section('content')
     @php
         $months = [
-            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
-            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
-            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December',
         ];
         $isPaid = $payroll->status->value === 'paid';
     @endphp
@@ -26,12 +35,20 @@
 
         <div class="flex gap-2">
             @unless ($isPaid)
-                <form method="POST" action="{{ route('payrolls.mark-paid', $payroll) }}" onsubmit="return confirm('Mark this payroll as paid?')">
+                <form method="POST" action="{{ route('payrolls.mark-paid', $payroll) }}"
+                    onsubmit="return confirm('Mark this payroll as paid?')">
                     @csrf
                     <x-button type="submit">Mark as Paid</x-button>
                 </form>
+            @else
+                <form method="POST" action="{{ route('payrolls.mark-unpaid', $payroll) }}"
+                    onsubmit="return confirm('Mark this payroll as unpaid?')">
+                    @csrf
+                    <x-button type="submit" variant="secondary">Mark as Unpaid</x-button>
+                </form>
             @endunless
-            <x-button href="{{ route('payrolls.index', ['month' => $payroll->month, 'year' => $payroll->year]) }}" variant="secondary">Back to List</x-button>
+            <x-button href="{{ route('payrolls.index', ['month' => $payroll->month, 'year' => $payroll->year]) }}"
+                variant="secondary">Back to List</x-button>
         </div>
     </div>
 
@@ -40,12 +57,32 @@
             <h2 class="text-lg font-semibold text-stone-900">Attendance Summary</h2>
             <dl class="mt-4 space-y-3 text-sm">
                 <div class="flex justify-between gap-4">
-                    <dt class="text-stone-500">Days Worked</dt>
+                    <dt class="text-stone-500">Present Days</dt>
                     <dd class="font-medium text-stone-900">{{ $payroll->total_worked_days }} days</dd>
                 </div>
                 <div class="flex justify-between gap-4">
-                    <dt class="text-stone-500">Hours Worked</dt>
-                    <dd class="font-medium text-stone-900">{{ $payroll->total_worked_hours }}h {{ str_pad((string) $payroll->total_worked_minutes, 2, '0', STR_PAD_LEFT) }}m</dd>
+                    <dt class="text-stone-500">Actual Work Days</dt>
+                    <dd class="font-medium text-stone-900">
+                        @php
+                            $totalMinutes = $payroll->total_worked_hours * 60 + $payroll->total_worked_minutes;
+
+                            $actualDays = intdiv($totalMinutes, 8 * 60);
+                            $remainingMinutes = $totalMinutes % (8 * 60);
+
+                            $actualHours = intdiv($remainingMinutes, 60);
+                            $actualMinutes = $remainingMinutes % 60;
+                        @endphp
+
+                        {{ $actualDays }}d {{ $actualHours }}h
+                        {{ str_pad((string) $actualMinutes, 2, '0', STR_PAD_LEFT) }}m
+                    </dd>
+                </div>
+                <div class="flex justify-between gap-4 border-t border-stone-200 pt-3">
+                    <dt class="text-red-600">Absent (after holiday allowance)</dt>
+                    <dd class="font-medium text-red-700">
+                        {{ $payroll->total_absent_days }}d {{ $payroll->total_absent_hours }}h
+                        {{ str_pad((string) $payroll->total_absent_minutes, 2, '0', STR_PAD_LEFT) }}m
+                    </dd>
                 </div>
                 <div class="flex justify-between gap-4">
                     <dt class="text-stone-500">Monthly Wage</dt>
@@ -91,11 +128,13 @@
             <thead class="bg-stone-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Type</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Category</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Category
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Amount</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">Reason</th>
                     @unless ($isPaid)
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">Actions</th>
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">Actions
+                        </th>
                     @endunless
                 </tr>
             </thead>
@@ -103,12 +142,16 @@
                 @forelse ($payroll->payrollAdjustments as $adjustment)
                     <tr>
                         <td class="px-6 py-4 text-sm text-stone-900">{{ $adjustment->adjustmentType->name }}</td>
-                        <td class="px-6 py-4 text-sm capitalize text-stone-600">{{ $adjustment->adjustmentType->category }}</td>
-                        <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ number_format($adjustment->amount, 0) }} MMK</td>
+                        <td class="px-6 py-4 text-sm capitalize text-stone-600">{{ $adjustment->adjustmentType->category }}
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium text-stone-900">
+                            {{ number_format($adjustment->amount, 0) }} MMK</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $adjustment->reason ?? '—' }}</td>
                         @unless ($isPaid)
                             <td class="px-6 py-4 text-right text-sm">
-                                <form method="POST" action="{{ route('payrolls.adjustments.destroy', [$payroll, $adjustment]) }}" class="inline" onsubmit="return confirm('Remove this adjustment?')">
+                                <form method="POST"
+                                    action="{{ route('payrolls.adjustments.destroy', [$payroll, $adjustment]) }}"
+                                    class="inline" onsubmit="return confirm('Remove this adjustment?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="font-medium text-red-600 hover:text-red-700">Remove</button>
@@ -118,7 +161,8 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="{{ $isPaid ? 4 : 5 }}" class="px-6 py-8 text-center text-sm text-stone-500">No adjustments yet.</td>
+                        <td colspan="{{ $isPaid ? 4 : 5 }}" class="px-6 py-8 text-center text-sm text-stone-500">No
+                            adjustments yet.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -126,14 +170,10 @@
 
         @unless ($isPaid)
             <div class="border-t border-stone-200 px-6 py-4">
-                <form method="POST" action="{{ route('payrolls.adjustments.store', $payroll) }}" class="grid gap-4 md:grid-cols-4">
+                <form method="POST" action="{{ route('payrolls.adjustments.store', $payroll) }}"
+                    class="grid gap-4 md:grid-cols-4">
                     @csrf
-                    <x-form-select
-                        name="adjustment_type_id"
-                        label="Type"
-                        :options="$adjustmentTypes->pluck('name', 'id')"
-                        placeholder="Select type"
-                    />
+                    <x-form-select name="adjustment_type_id" label="Type" :options="$adjustmentTypes->pluck('name', 'id')" placeholder="Select type" />
                     <x-form-input name="amount" label="Amount (MMK)" type="number" step="0.01" min="0.01" />
                     <x-form-input name="reason" label="Reason" :value="old('reason')" />
                     <div class="flex items-end">

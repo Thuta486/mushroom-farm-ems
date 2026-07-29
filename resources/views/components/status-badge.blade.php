@@ -9,6 +9,8 @@
         'absent' => 'bg-red-100 text-red-800',
         'paid' => 'bg-emerald-100 text-emerald-800',
         'unpaid' => 'bg-amber-100 text-amber-800',
+        'superadmin' => 'bg-emerald-100 text-emerald-800',
+        'admin' => 'bg-stone-100 text-stone-700',
         default => 'bg-stone-100 text-stone-700',
     };
 
@@ -20,6 +22,8 @@
         'absent' => 'Absent',
         'paid' => 'Paid',
         'unpaid' => 'Unpaid',
+        'superadmin' => 'Super Admin',
+        'admin' => 'Admin',
         default => ucfirst((string) $status),
     };
 @endphp

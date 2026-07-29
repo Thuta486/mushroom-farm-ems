@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdvanceTypeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CashAdvanceController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -17,9 +19,11 @@ Route::middleware('guest')->group(function (): void {
     Route::post('login', [LoginController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function (): void {
+Route::middleware(['auth', 'role.restrict'])->group(function (): void {
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+
+    Route::resource('users', UserController::class)->except(['show']);
 
     Route::resource('departments', DepartmentController::class)->except(['show']);
     Route::resource('employees', EmployeeController::class);
@@ -33,9 +37,14 @@ Route::middleware('auth')->group(function (): void {
     Route::get('payrolls', [PayrollController::class, 'index'])->name('payrolls.index');
     Route::get('payrolls/{payroll}', [PayrollController::class, 'show'])->name('payrolls.show');
     Route::post('payrolls/{payroll}/mark-paid', [PayrollController::class, 'markPaid'])->name('payrolls.mark-paid');
+    Route::post('payrolls/{payroll}/mark-unpaid', [PayrollController::class, 'markUnpaid'])->name('payrolls.mark-unpaid');
     Route::post('payrolls/{payroll}/adjustments', [PayrollController::class, 'storeAdjustment'])->name('payrolls.adjustments.store');
     Route::delete('payrolls/{payroll}/adjustments/{adjustment}', [PayrollController::class, 'destroyAdjustment'])->name('payrolls.adjustments.destroy');
 
+    Route::resource('advance-types', AdvanceTypeController::class)->except(['show']);
+
+    Route::get('cash-advances/daily', [CashAdvanceController::class, 'daily'])->name('cash-advances.daily');
+    Route::post('cash-advances/daily', [CashAdvanceController::class, 'storeDaily'])->name('cash-advances.daily.store');
     Route::resource('cash-advances', CashAdvanceController::class)->except(['show']);
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
