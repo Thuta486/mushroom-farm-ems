@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('status'); // present, absent
             $table->unsignedInteger('hours_worked')->default(0);
             $table->unsignedInteger('minutes_worked')->default(0);
-            $table->string('work_type')->nullable(); // e.g. Harvesting, Cleaning, Packaging
             $table->text('notes')->nullable();
             $table->timestamps();
 

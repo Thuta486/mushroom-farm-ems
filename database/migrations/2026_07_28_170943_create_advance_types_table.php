@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('advance_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // e.g. Cash Advance, Mushroom Eating Cash
+            $table->string('name_en'); // e.g. Salary Allowance Advance, Meal Allowance Advance
+            $table->string('name_my');
             $table->timestamps();
         });
     }

@@ -11,13 +11,16 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('name');
+            $table->string('name_en');
+            $table->string('name_my');
             $table->string('phone')->nullable();
             $table->string('gender')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->unsignedSmallInteger('age')->nullable();
             $table->string('address')->nullable();
             $table->date('joining_date');
-            $table->string('position')->nullable();
+            $table->string('position_en');
+            $table->string('position_my');
             $table->string('employment_status')->default('active'); // active, inactive, terminated
             $table->decimal('wage_amount', 12, 2); // monthly salary
             $table->string('emergency_contact')->nullable();

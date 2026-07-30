@@ -64,9 +64,9 @@
                     <tr>
                         <td class="px-6 py-4">
                             <a href="{{ route('employees.show', $payroll->employee) }}" class="font-medium text-emerald-700 hover:text-emerald-800">
-                                {{ $payroll->employee->name }}
+                                {{ $payroll->employee->display_name }}
                             </a>
-                            <p class="text-xs text-stone-500">{{ $payroll->employee->department?->name ?? __('app.employees.no_department') }}</p>
+                            <p class="text-xs text-stone-500">{{ $payroll->employee->department?->display_name ?? __('app.employees.no_department') }}</p>
                         </td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $months[$payroll->month] ?? $payroll->month }} {{ $payroll->year }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $payroll->total_worked_days }} {{ __('app.common.days') }}</td>

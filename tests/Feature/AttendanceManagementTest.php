@@ -2,7 +2,6 @@
 
 use App\Enums\AttendanceStatus;
 use App\Enums\EmploymentStatus;
-use App\Enums\WorkType;
 use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\User;
@@ -16,7 +15,7 @@ test('attendance history page can be rendered', function () {
 
     $this->get(route('attendances.index'))
         ->assertSuccessful()
-        ->assertSee($attendance->employee->name);
+        ->assertSee($attendance->employee->display_name);
 });
 
 test('daily attendance page lists active employees', function () {
@@ -56,7 +55,6 @@ test('daily attendance can be saved for multiple employees', function () {
                 'status' => AttendanceStatus::Present->value,
                 'hours_worked' => 8,
                 'minutes_worked' => 0,
-                'work_type' => WorkType::Harvesting->value,
                 'notes' => 'Morning shift',
             ],
             [
@@ -94,7 +92,6 @@ test('saving daily attendance updates existing records for the same date', funct
                 'status' => AttendanceStatus::Present->value,
                 'hours_worked' => 7,
                 'minutes_worked' => 30,
-                'work_type' => WorkType::Cleaning->value,
             ],
         ],
     ])->assertRedirect();
@@ -132,14 +129,12 @@ test('an attendance record can be updated', function () {
         'status' => AttendanceStatus::Present->value,
         'hours_worked' => 6,
         'minutes_worked' => 15,
-        'work_type' => WorkType::Packaging->value,
         'notes' => 'Half day packaging',
     ])->assertRedirect();
 
     expect($attendance->fresh())
         ->hours_worked->toBe(6)
-        ->minutes_worked->toBe(15)
-        ->work_type->toBe(WorkType::Packaging);
+        ->minutes_worked->toBe(15);
 });
 
 test('an attendance record can be removed', function () {

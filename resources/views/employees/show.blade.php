@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', $employee->name)
+@section('title', $employee->display_name)
 
 @section('content')
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
             <div class="flex items-center gap-3">
-                <h1 class="text-2xl font-semibold text-stone-900">{{ $employee->name }}</h1>
+                <h1 class="text-2xl font-semibold text-stone-900">{{ $employee->display_name }}</h1>
                 <x-status-badge :status="$employee->employment_status->value" />
             </div>
-            <p class="mt-1 text-sm text-stone-500">{{ $employee->position ?? __('app.employees.no_position_set') }} · {{ $employee->department?->name ?? __('app.employees.no_department') }}</p>
+            <p class="mt-1 text-sm text-stone-500">{{ $employee->display_position ?? __('app.employees.no_position_set') }} · {{ $employee->department?->display_name ?? __('app.employees.no_department') }}</p>
         </div>
 
         <div class="flex gap-2">
@@ -37,6 +37,10 @@
                 <div class="flex justify-between gap-4">
                     <dt class="text-stone-500">{{ __('app.employees.date_of_birth') }}</dt>
                     <dd class="font-medium text-stone-900">{{ $employee->date_of_birth?->format('d M Y') ?? '—' }}</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-stone-500">{{ __('app.employees.age') }}</dt>
+                    <dd class="font-medium text-stone-900">{{ $employee->age ?? '—' }}</dd>
                 </div>
                 <div class="flex justify-between gap-4">
                     <dt class="text-stone-500">{{ __('app.employees.joining_date') }}</dt>
@@ -114,7 +118,6 @@
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.date') }}</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.status') }}</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.time_worked') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.work_type') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-stone-100">
@@ -131,11 +134,11 @@
                                 —
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->work_type?->label() ?? '—' }}</td>
+                        
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-sm text-stone-500">{{ __('app.employees.no_attendance_records_yet') }}</td>
+                        <td colspan="3" class="px-6 py-8 text-center text-sm text-stone-500">{{ __('app.employees.no_attendance_records_yet') }}</td>
                     </tr>
                 @endforelse
             </tbody>

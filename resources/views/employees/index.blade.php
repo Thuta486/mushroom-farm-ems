@@ -42,10 +42,10 @@
                     <tr>
                         <td class="px-6 py-4">
                             <a href="{{ route('employees.show', $employee) }}" class="font-medium text-emerald-700 hover:text-emerald-800">
-                                {{ $employee->name }}
+                                {{ $employee->display_name }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->department?->name ?? '—' }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->department?->display_name ?? '—' }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->position ?? '—' }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ number_format($employee->wage_amount, 0) }} {{ __('app.common.currency') }}</td>
                         <td class="px-6 py-4">

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Enums\AttendanceStatus;
-use App\Enums\WorkType;
 use App\Models\Attendance;
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,7 +26,6 @@ class AttendanceFactory extends Factory
             'status' => $status,
             'hours_worked' => $isPresent ? fake()->numberBetween(6, 10) : 0,
             'minutes_worked' => $isPresent ? fake()->randomElement([0, 15, 30, 45]) : 0,
-            'work_type' => $isPresent ? fake()->randomElement(WorkType::cases()) : null,
             'notes' => fake()->optional()->sentence(),
         ];
     }
@@ -38,7 +36,6 @@ class AttendanceFactory extends Factory
             'status' => AttendanceStatus::Present,
             'hours_worked' => 8,
             'minutes_worked' => 0,
-            'work_type' => WorkType::Harvesting,
         ]);
     }
 
@@ -48,7 +45,6 @@ class AttendanceFactory extends Factory
             'status' => AttendanceStatus::Absent,
             'hours_worked' => 0,
             'minutes_worked' => 0,
-            'work_type' => null,
         ]);
     }
 }

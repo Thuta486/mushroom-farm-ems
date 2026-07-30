@@ -40,7 +40,7 @@ class AttendanceController extends Controller
             })
             ->orderByDesc('date')
             ->orderBy(
-                Employee::select('name')
+                Employee::select('name_en')
                     ->whereColumn('employees.id', 'attendances.employee_id')
                     ->limit(1),
             )
@@ -49,8 +49,8 @@ class AttendanceController extends Controller
 
         return view('attendances.index', [
             'attendances' => $attendances,
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'departments' => Department::orderBy('name_en')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -62,7 +62,7 @@ class AttendanceController extends Controller
             ->with('department')
             ->where('employment_status', EmploymentStatus::Active)
             ->whereDate('joining_date', '<=', $date)
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->get();
 
         $existingAttendances = Attendance::query()
@@ -94,9 +94,6 @@ class AttendanceController extends Controller
                     'minutes_worked' => $row['status'] === AttendanceStatus::Present->value
                         ? (int) $row['minutes_worked']
                         : 0,
-                    'work_type' => $row['status'] === AttendanceStatus::Present->value
-                        ? ($row['work_type'] ?? null)
-                        : null,
                     'notes' => $row['notes'] ?? null,
                 ];
 
@@ -138,7 +135,6 @@ class AttendanceController extends Controller
         if ($data['status'] === AttendanceStatus::Absent->value) {
             $data['hours_worked'] = 0;
             $data['minutes_worked'] = 0;
-            $data['work_type'] = null;
         }
 
         $attendance->update($data);

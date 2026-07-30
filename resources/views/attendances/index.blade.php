@@ -36,7 +36,6 @@
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.department') }}</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.status') }}</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.time_worked') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.attendance.work_type') }}</th>
                     <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.actions') }}</th>
                 </tr>
             </thead>
@@ -45,11 +44,11 @@
                     <tr>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->date->format('d M Y') }}</td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('employees.show', $attendance->employee) }}" class="font-medium text-emerald-700 hover:text-emerald-800">
-                                {{ $attendance->employee->name }}
+                                <a href="{{ route('employees.show', $attendance->employee) }}" class="font-medium text-emerald-700 hover:text-emerald-800">
+                                {{ $attendance->employee->display_name }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->employee->department?->name ?? '—' }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->employee->department?->display_name ?? '—' }}</td>
                         <td class="px-6 py-4">
                             <x-status-badge :status="$attendance->status->value" />
                         </td>
@@ -60,7 +59,6 @@
                                 —
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $attendance->work_type?->label() ?? '—' }}</td>
                         <td class="px-6 py-4 text-right text-sm">
                             <a href="{{ route('attendances.edit', $attendance) }}" class="font-medium text-emerald-700 hover:text-emerald-800">{{ __('app.common.edit') }}</a>
                         </td>

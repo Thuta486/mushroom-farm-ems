@@ -16,18 +16,18 @@ class AdjustmentTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->words(2, true),
-            'category' => fake()->randomElement(['bonus', 'deduction']),
+            'name_en' => fake()->unique()->words(2, true),
+            'name_my' => null,
         ];
     }
 
     public function bonus(): static
     {
-        return $this->state(fn () => ['category' => 'bonus']);
+        return $this->state(fn () => []);
     }
 
     public function deduction(): static
     {
-        return $this->state(fn () => ['category' => 'deduction']);
+        return $this->state(fn () => []);
     }
 }

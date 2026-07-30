@@ -12,7 +12,8 @@
         <form method="POST" action="{{ route('advance-types.update', $advanceType) }}" class="space-y-5">
             @csrf
             @method('PUT')
-            <x-form-input name="name" label="{{ __('app.common.name') }}" :value="old('name', $advanceType->name)" required />
+            <x-form-input name="name_en" label="{{ __('app.common.advance_type_en') }}" :value="old('name_en', $advanceType->name_en)" required />
+            <x-form-input name="name_my" label="{{ __('app.common.advance_type_my') }}" :value="old('name_my', $advanceType->name_my)" required />
 
             <div class="flex gap-3">
                 <x-button type="submit">{{ __('app.advance_types.update_advance_type') }}</x-button>

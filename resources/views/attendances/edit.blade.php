@@ -5,13 +5,12 @@
 @section('content')
     @php
         use App\Enums\AttendanceStatus;
-        use App\Enums\WorkType;
     @endphp
 
     <div class="mb-6">
         <h1 class="text-2xl font-semibold text-stone-900">{{ __('app.attendance.edit_attendance') }}</h1>
         <p class="mt-1 text-sm text-stone-500">
-            {{ $attendance->employee->name }} · {{ $attendance->date->format('d M Y') }}
+            {{ $attendance->employee->display_name }} · {{ $attendance->date->format('d M Y') }}
         </p>
     </div>
 
@@ -44,13 +43,7 @@
             />
         </div>
 
-        <x-form-select
-            name="work_type"
-            label="{{ __('app.attendance.work_type') }}"
-            :options="WorkType::options()"
-            :selected="old('work_type', $attendance->work_type?->value)"
-            placeholder="{{ __('app.attendance.not_set') }}"
-        />
+
 
         <x-form-textarea
             name="notes"

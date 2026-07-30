@@ -10,7 +10,9 @@ return new class extends Migration
     {
         Schema::create('adjustment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // e.g. Bonus, Deduction, Tool Damage
+            $table->string('name_en');
+            $table->string('name_my');
+            $table->string('category')->default('deduction'); // bonus, deduction
             $table->timestamps();
         });
     }

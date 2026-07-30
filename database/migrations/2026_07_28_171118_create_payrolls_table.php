@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedInteger('total_worked_days')->default(0);
             $table->unsignedInteger('total_worked_hours')->default(0);
             $table->unsignedInteger('total_worked_minutes')->default(0);
+            $table->unsignedInteger('total_absent_days')->default(0);
+            $table->unsignedInteger('total_absent_hours')->default(0);
+            $table->unsignedInteger('total_absent_minutes')->default(0);
             $table->decimal('total_bonus', 12, 2)->default(0);
             $table->decimal('total_deduction', 12, 2)->default(0);
             $table->decimal('total_advances', 12, 2)->default(0);

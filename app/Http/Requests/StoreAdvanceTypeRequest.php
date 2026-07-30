@@ -17,7 +17,8 @@ class StoreAdvanceTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:advance_types,name'],
+            'name_en' => ['required', 'string', 'max:255', 'unique:advance_types,name_en'],
+            'name_my' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -27,8 +28,8 @@ class StoreAdvanceTypeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Please enter an advance type name.',
-            'name.unique' => 'This advance type already exists.',
+            'name_en.required' => 'Please enter an advance type name.',
+            'name_en.unique' => 'This advance type already exists.',
         ];
     }
 }

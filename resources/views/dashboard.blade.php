@@ -67,7 +67,7 @@
                 @forelse ($departments as $department)
                     <div class="flex items-center justify-between px-6 py-4">
                         <div>
-                            <p class="font-medium text-stone-900">{{ $department->name }}</p>
+                            <p class="font-medium text-stone-900">{{ $department->display_name }}</p>
                             <p class="text-sm text-stone-500">{{ $department->employees_count }} employees</p>
                         </div>
                         <a href="{{ route('employees.index', ['department_id' => $department->id]) }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">
@@ -94,7 +94,7 @@
                 @forelse ($unpaidPayrolls as $payroll)
                     <div class="flex items-center justify-between px-6 py-4">
                         <div>
-                            <p class="font-medium text-stone-900">{{ $payroll->employee->name }}</p>
+                            <p class="font-medium text-stone-900">{{ $payroll->employee->display_name }}</p>
                             <p class="text-sm text-stone-500">
                                 {{ $months[$payroll->month] ?? $payroll->month }} {{ $payroll->year }}
                                 · {{ number_format($payroll->net_pay, 0) }} MMK

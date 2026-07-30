@@ -12,7 +12,8 @@
         <form method="POST" action="{{ route('departments.update', $department) }}" class="space-y-5">
             @csrf
             @method('PUT')
-            <x-form-input name="name" label="{{ __('app.departments.name') }}" :value="old('name', $department->name)" required />
+            <x-form-input name="name_en" label="{{ __('app.departments.name_en') }}" :value="old('name_en', $department->name_en)" required />
+            <x-form-input name="name_my" label="{{ __('app.departments.name_my') }}" :value="old('name_my', $department->name_my)" required/>
 
             <div class="flex gap-3">
                 <x-button type="submit">{{ __('app.common.save_changes') }}</x-button>

@@ -13,7 +13,7 @@ class AdvanceTypeController extends Controller
     {
         $advanceTypes = AdvanceType::query()
             ->withCount('cashAdvances')
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->get();
 
         return view('advance-types.index', compact('advanceTypes'));
@@ -40,9 +40,7 @@ class AdvanceTypeController extends Controller
 
     public function update(StoreAdvanceTypeRequest $request, AdvanceType $advanceType): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:advance_types,name,'.$advanceType->id],
-        ]);
+        $validated = $request->validated();
 
         $advanceType->update($validated);
 

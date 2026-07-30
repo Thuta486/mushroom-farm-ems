@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             DepartmentSeeder::class,
-            PaymentTypeSeeder::class,
+            AdjustmentTypeSeeder::class,
+            AdvanceTypeSeeder::class,
         ]);
     }
 }

@@ -24,12 +24,12 @@
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
             <div class="flex items-center gap-3">
-                <h1 class="text-2xl font-semibold text-stone-900">{{ $payroll->employee->name }}</h1>
+                <h1 class="text-2xl font-semibold text-stone-900">{{ $payroll->employee->display_name }}</h1>
                 <x-status-badge :status="$payroll->status->value" />
             </div>
             <p class="mt-1 text-sm text-stone-500">
                 {{ $months[$payroll->month] ?? $payroll->month }} {{ $payroll->year }}
-                · {{ $payroll->employee->department?->name ?? __('app.employees.no_department') }}
+                · {{ $payroll->employee->department?->display_name ?? __('app.employees.no_department') }}
             </p>
         </div>
 
@@ -139,7 +139,7 @@
             <tbody class="divide-y divide-stone-100">
                 @forelse ($payroll->payrollAdjustments as $adjustment)
                     <tr>
-                        <td class="px-6 py-4 text-sm text-stone-900">{{ $adjustment->adjustmentType->name }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-900">{{ $adjustment->adjustmentType->display_name }}</td>
                         <td class="px-6 py-4 text-sm capitalize text-stone-600">{{ $adjustment->adjustmentType->category }}</td>
                         <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ number_format($adjustment->amount, 0) }} {{ __('app.common.currency') }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $adjustment->reason ?? '—' }}</td>
@@ -168,7 +168,7 @@
                 <form method="POST" action="{{ route('payrolls.adjustments.store', $payroll) }}"
                     class="grid gap-4 md:grid-cols-4">
                     @csrf
-                    <x-form-select name="adjustment_type_id" label="{{ __('app.common.type') }}" :options="$adjustmentTypes->pluck('name', 'id')" placeholder="{{ __('app.cash_advances.select_type') }}" />
+                    <x-form-select name="adjustment_type_id" label="{{ __('app.common.type') }}" :options="$adjustmentTypes->pluck('display_name', 'id')" placeholder="{{ __('app.cash_advances.select_type') }}" />
                     <x-form-input name="amount" label="{{ __('app.common.amount') }} ({{ __('app.common.currency') }})" type="number" step="0.01" min="0.01" />
                     <x-form-input name="reason" label="{{ __('app.common.reason') }}" :value="old('reason')" />
                     <div class="flex items-end">

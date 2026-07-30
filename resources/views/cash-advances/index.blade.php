@@ -42,10 +42,10 @@
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $cashAdvance->date->format('d M Y') }}</td>
                         <td class="px-6 py-4">
                             <a href="{{ route('employees.show', $cashAdvance->employee) }}" class="font-medium text-emerald-700 hover:text-emerald-800">
-                                {{ $cashAdvance->employee->name }}
+                                {{ $cashAdvance->employee->display_name }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $cashAdvance->advanceType->name }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $cashAdvance->advanceType->display_name }}</td>
                         <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ number_format($cashAdvance->amount, 0) }} {{ __('app.cash_advances.currency') }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $cashAdvance->notes ?? '—' }}</td>
                         <td class="px-6 py-4 text-right text-sm">

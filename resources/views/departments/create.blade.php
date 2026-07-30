@@ -11,7 +11,8 @@
     <div class="max-w-xl rounded-xl border border-stone-200 bg-white p-6">
         <form method="POST" action="{{ route('departments.store') }}" class="space-y-5">
             @csrf
-            <x-form-input name="name" label="{{ __('app.departments.name') }}" :value="old('name')" required />
+            <x-form-input name="name_en" label="{{ __('app.departments.name_en') }}" :value="old('name_en')" required />
+            <x-form-input name="name_my" label="{{ __('app.departments.name_my') }}" :value="old('name_my')" required />
 
             <div class="flex gap-3">
                 <x-button type="submit">{{ __('app.departments.save_department') }}</x-button>

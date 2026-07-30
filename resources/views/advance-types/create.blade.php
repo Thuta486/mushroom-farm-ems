@@ -11,7 +11,8 @@
     <div class="max-w-xl rounded-xl border border-stone-200 bg-white p-6">
         <form method="POST" action="{{ route('advance-types.store') }}" class="space-y-5">
             @csrf
-            <x-form-input name="name" label="{{ __('app.common.name') }}" :value="old('name')" required />
+            <x-form-input name="name_en" label="{{ __('app.common.advance_type_en') }}" :value="old('name_en')" required />
+            <x-form-input name="name_my" label="{{ __('app.common.advance_type_my') }}" :value="old('name_my')" required />
 
             <div class="flex gap-3">
                 <x-button type="submit">{{ __('app.advance_types.save_advance_type') }}</x-button>

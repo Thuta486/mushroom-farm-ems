@@ -19,7 +19,7 @@ class EmployeeController extends Controller
         $employees = Employee::query()
             ->with('department')
             ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'like', '%'.$request->string('search').'%');
+                $query->where('name_en', 'like', '%'.$request->string('search').'%');
             })
             ->when($request->filled('department_id'), function ($query) use ($request) {
                 $query->where('department_id', $request->integer('department_id'));
@@ -27,20 +27,20 @@ class EmployeeController extends Controller
             ->when($request->input('employment_status', 'active') !== 'all', function ($query) use ($request) {
                 $query->where('employment_status', $request->input('employment_status', 'active'));
             })
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->paginate(15)
             ->withQueryString();
 
         return view('employees.index', [
             'employees' => $employees,
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
         ]);
     }
 
     public function create(): View
     {
         return view('employees.create', [
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
         ]);
     }
 
@@ -87,7 +87,7 @@ class EmployeeController extends Controller
 
         return view('employees.edit', [
             'employee' => $employee,
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
         ]);
     }
 

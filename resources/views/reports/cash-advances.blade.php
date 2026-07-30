@@ -80,10 +80,10 @@
                     <tr>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $advance->date->format('d M Y') }}</td>
                         <td class="px-6 py-4">
-                            <p class="font-medium text-stone-900">{{ $advance->employee->name }}</p>
-                            <p class="text-xs text-stone-500">{{ $advance->employee->department?->name ?? __('app.employees.no_department') }}</p>
+                            <p class="font-medium text-stone-900">{{ $advance->employee->display_name }}</p>
+                            <p class="text-xs text-stone-500">{{ $advance->employee->department?->display_name ?? __('app.employees.no_department') }}</p>
                         </td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $advance->advanceType->name }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $advance->advanceType->display_name }}</td>
                         <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ number_format($advance->amount, 0) }} {{ __('app.common.currency') }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $advance->notes ?: '—' }}</td>
                     </tr>

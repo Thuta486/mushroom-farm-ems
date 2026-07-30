@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Enums\AttendanceStatus;
-use App\Enums\WorkType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -24,7 +23,7 @@ class UpdateAttendanceRequest extends FormRequest
             'status' => ['required', Rule::enum(AttendanceStatus::class)],
             'hours_worked' => ['required', 'integer', 'min:0', 'max:24'],
             'minutes_worked' => ['required', 'integer', 'min:0', 'max:59'],
-            'work_type' => ['nullable', Rule::enum(WorkType::class)],
+            // 'work_type' removed: handled in migration
             'notes' => ['nullable', 'string', 'max:500'],
         ];
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDepartmentRequest extends FormRequest
+class StoreAdjustmentTypeRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +17,7 @@ class StoreDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => ['required', 'string', 'max:255', 'unique:departments,name_en'],
+            'name_en' => ['required', 'string', 'max:255', 'unique:adjustment_types,name_en'],
             'name_my' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -28,8 +28,9 @@ class StoreDepartmentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name_en.required' => 'Please enter a department name (English).',
-            'name_en.unique' => 'This department already exists.',
+            'name.required' => 'Please enter an adjustment type name.',
+            'name.unique' => 'This adjustment type already exists.',
+            'category.in' => 'Invalid category selected.',
         ];
     }
 }

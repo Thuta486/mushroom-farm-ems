@@ -8,20 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Traits\HasLocalizedAttributes;
 
 class Employee extends Model
 {
     use HasFactory;
 
+
+    use HasLocalizedAttributes;
+
     protected $fillable = [
         'department_id',
-        'name',
+        'name_en', 'name_my',
         'phone',
         'gender',
         'date_of_birth',
+        'age',
         'address',
         'joining_date',
-        'position',
+        'position_en', 'position_my',
         'employment_status',
         'wage_amount',
         'emergency_contact',
@@ -62,5 +67,25 @@ class Employee extends Model
     public function payrolls(): HasMany
     {
         return $this->hasMany(Payroll::class);
+    }
+
+    public function getDisplayPositionAttribute(): string
+    {
+        return $this->localized('position');
+    }
+
+    public function getDisplayNameAttribute(): string
+    {
+        $locale = app()->getLocale();
+
+        if ($locale === 'my' && $this->name_my) {
+            return $this->name_my;
+        }
+
+        if ($locale === 'en' && $this->name_en) {
+            return $this->name_en;
+        }
+
+        return $this->name ?? $this->name_en ?? $this->name_my ?? '';
     }
 }

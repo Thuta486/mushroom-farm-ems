@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Enums\AttendanceStatus;
 use App\Enums\EmploymentStatus;
-use App\Enums\WorkType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -29,9 +28,9 @@ class StoreDailyAttendanceRequest extends FormRequest
                 Rule::exists('employees', 'id')->where('employment_status', EmploymentStatus::Active->value),
             ],
             'attendances.*.status' => ['required', Rule::enum(AttendanceStatus::class)],
-            'attendances.*.hours_worked' => [ 'nullable','required_if:attendances.*.status,present', 'integer', 'min:0', 'max:24'],
-            'attendances.*.minutes_worked' => [    'nullable','required_if:attendances.*.status,present', 'integer', 'min:0', 'max:59'],
-            'attendances.*.work_type' => ['nullable', Rule::enum(WorkType::class)],
+            'attendances.*.hours_worked' => ['nullable', 'required_if:attendances.*.status,present', 'integer', 'min:0', 'max:24'],
+            'attendances.*.minutes_worked' => ['nullable', 'required_if:attendances.*.status,present', 'integer', 'min:0', 'max:59'],
+            // 'work_type' removed: attendances.*.work_type
             'attendances.*.notes' => ['nullable', 'string', 'max:500'],
         ];
     }

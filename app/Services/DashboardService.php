@@ -68,7 +68,7 @@ class DashboardService
         return [
             'totalEmployees' => Employee::count(),
             'activeEmployees' => Employee::where('employment_status', EmploymentStatus::Active)->count(),
-            'departments' => Department::withCount('employees')->orderBy('name')->get(),
+            'departments' => Department::withCount('employees')->orderBy('name_en')->get(),
             'today' => [
                 'date' => $today,
                 'active_count' => $activeEmployeeIds->count(),

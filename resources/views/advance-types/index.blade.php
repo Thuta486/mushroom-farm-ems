@@ -15,7 +15,7 @@
         <table class="min-w-full divide-y divide-stone-200">
             <thead class="bg-stone-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.name') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.advance_type') }}</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.advance_types.cash_advances_recorded') }}</th>
                     <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone-500">{{ __('app.common.actions') }}</th>
                 </tr>
@@ -23,7 +23,7 @@
             <tbody class="divide-y divide-stone-100">
                 @forelse ($advanceTypes as $advanceType)
                     <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ $advanceType->name }}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ $advanceType->display_name }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $advanceType->cash_advances_count }}</td>
                         <td class="px-6 py-4 text-right text-sm">
                             <a href="{{ route('advance-types.edit', $advanceType) }}" class="font-medium text-emerald-700 hover:text-emerald-800">{{ __('app.common.edit') }}</a>

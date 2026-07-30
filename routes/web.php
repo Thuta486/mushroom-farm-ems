@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\AdvanceTypeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'role.restrict'])->group(function (): void {
     Route::delete('payrolls/{payroll}/adjustments/{adjustment}', [PayrollController::class, 'destroyAdjustment'])->name('payrolls.adjustments.destroy');
 
     Route::resource('advance-types', AdvanceTypeController::class)->except(['show']);
+    Route::resource('adjustment-types', AdjustmentTypeController::class)->except(['show']);
 
     Route::get('cash-advances/daily', [CashAdvanceController::class, 'daily'])->name('cash-advances.daily');
     Route::post('cash-advances/daily', [CashAdvanceController::class, 'storeDaily'])->name('cash-advances.daily.store');

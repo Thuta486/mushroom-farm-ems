@@ -29,8 +29,8 @@ class ReportController extends Controller
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'report' => $this->reports->attendanceReport($dateFrom, $dateTo, $departmentId, $employeeId),
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->mapWithKeys(fn ($e) => [$e->id => $e->display_name]),
+            'departments' => Department::orderBy('name_en')->get()->mapWithKeys(fn ($d) => [$d->id => $d->display_name]),
         ]);
     }
 
@@ -44,7 +44,7 @@ class ReportController extends Controller
             'month' => $month,
             'year' => $year,
             'report' => $this->reports->payrollReport($month, $year, $departmentId),
-            'departments' => Department::orderBy('name')->pluck('name', 'id'),
+            'departments' => Department::orderBy('name_en')->get()->mapWithKeys(fn ($d) => [$d->id => $d->display_name]),
         ]);
     }
 
@@ -58,7 +58,7 @@ class ReportController extends Controller
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'report' => $this->reports->cashAdvanceReport($dateFrom, $dateTo, $employeeId),
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->mapWithKeys(fn ($e) => [$e->id => $e->display_name]),
         ]);
     }
 }

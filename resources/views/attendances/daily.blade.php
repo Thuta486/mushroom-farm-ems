@@ -5,7 +5,6 @@
 @section('content')
     @php
         use App\Enums\AttendanceStatus;
-        use App\Enums\WorkType;
     @endphp
 
     <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -61,16 +60,16 @@
                                     $status = old("attendances.{$index}.status", $record?->status->value ?? AttendanceStatus::Present->value);
                                     $hours = old("attendances.{$index}.hours_worked", $record?->hours_worked ?? 8);
                                     $minutes = old("attendances.{$index}.minutes_worked", $record?->minutes_worked ?? 0);
-                                    $workType = old("attendances.{$index}.work_type", $record?->work_type?->value);
+                                    $workType = null;
                                     $notes = old("attendances.{$index}.notes", $record?->notes);
                                 @endphp
                                 <tr>
                                     <td class="px-4 py-4 sm:px-6">
                                         <input type="hidden" name="attendances[{{ $index }}][employee_id]" value="{{ $employee->id }}">
-                                        <span class="font-medium text-stone-900">{{ $employee->name }}</span>
+                                        <span class="font-medium text-stone-900">{{ $employee->display_name }}</span>
                                         <p class="text-xs text-stone-500">{{ $employee->position ?? 'No position' }}</p>
                                     </td>
-                                    <td class="px-4 py-4 text-sm text-stone-600 sm:px-6">{{ $employee->department?->name ?? '—' }}</td>
+                                    <td class="px-4 py-4 text-sm text-stone-600 sm:px-6">{{ $employee->department?->display_name ?? '—' }}</td>
                                     <td class="px-4 py-4 sm:px-6">
                                         <select
                                             name="attendances[{{ $index }}][status]"
@@ -101,17 +100,7 @@
                                             class="attendance-minutes block w-full min-w-20 rounded-lg border border-stone-300 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                                         >
                                     </td>
-                                    <td class="px-4 py-4 sm:px-6">
-                                        <select
-                                            name="attendances[{{ $index }}][work_type]"
-                                            class="attendance-work-type block w-full min-w-36 rounded-lg border border-stone-300 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                                        >
-                                            <option value="">{{ __('app.attendance.select_work_type') }}</option>
-                                            @foreach (WorkType::options() as $value => $label)
-                                                <option value="{{ $value }}" @selected($workType === $value)>{{ $label }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
+                                    
                                     <td class="px-4 py-4 sm:px-6">
                                         <input
                                             type="text"
@@ -140,7 +129,7 @@
 
                 const toggleRow = () => {
                     const isPresent = select.value === 'present';
-                    row.querySelectorAll('.attendance-hours, .attendance-minutes, .attendance-work-type').forEach((field) => {
+                    row.querySelectorAll('.attendance-hours, .attendance-minutes').forEach((field) => {
                         field.disabled = !isPresent;
                         field.closest('td').classList.toggle('opacity-50', !isPresent);
                     });

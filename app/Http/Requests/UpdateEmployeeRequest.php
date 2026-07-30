@@ -20,13 +20,16 @@ class UpdateEmployeeRequest extends FormRequest
     {
         return [
             'department_id' => ['nullable', 'exists:departments,id'],
-            'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_my' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
             'gender' => ['nullable', 'string', 'max:20'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
+            'age' => ['nullable', 'integer', 'min:0', 'max:100'],
             'address' => ['nullable', 'string', 'max:500'],
             'joining_date' => ['required', 'date'],
-            'position' => ['nullable', 'string', 'max:255'],
+            'position_en' => ['nullable', 'string', 'max:255'],
+            'position_my' => ['nullable', 'string', 'max:255'],
             'employment_status' => ['required', Rule::enum(EmploymentStatus::class)],
             'wage_amount' => ['required', 'numeric', 'min:0'],
             'emergency_contact' => ['nullable', 'string', 'max:255'],
@@ -41,7 +44,7 @@ class UpdateEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Please enter the employee name.',
+            'name_en.required' => 'Please enter the employee name.',
             'joining_date.required' => 'Please enter the joining date.',
             'wage_amount.required' => 'Please enter the monthly wage.',
             'salary_change_reason.required' => 'Please provide a reason for the wage change.',

@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-6">
         <h1 class="text-2xl font-semibold text-stone-900">{{ __('app.cash_advances.edit_cash_advance') }}</h1>
-        <p class="mt-1 text-sm text-stone-500">{{ __('app.cash_advances.edit_cash_advance_subtitle', ['name' => $cashAdvance->employee->name]) }}</p>
+        <p class="mt-1 text-sm text-stone-500">{{ __('app.cash_advances.edit_cash_advance_subtitle', ['name' => $cashAdvance->employee->display_name]) }}</p>
     </div>
 
     <div class="max-w-xl rounded-xl border border-stone-200 bg-white p-6">

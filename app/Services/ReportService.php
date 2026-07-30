@@ -14,6 +14,14 @@ use Illuminate\Support\Carbon;
 class ReportService
 {
     /**
+     * Pick the display name based on the current app locale.
+     */
+    private function localized(?string $nameEn, ?string $nameMy): ?string
+    {
+        return app()->getLocale() === 'my' ? ($nameMy ?? $nameEn) : ($nameEn ?? $nameMy);
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function attendanceReport(Carbon $dateFrom, Carbon $dateTo, ?int $departmentId = null, ?int $employeeId = null): array
@@ -38,16 +46,24 @@ class ReportService
             ->join('employees', 'employees.id', '=', 'attendances.employee_id')
             ->leftJoin('departments', 'departments.id', '=', 'employees.department_id')
             ->select('employees.id as employee_id')
-            ->selectRaw('employees.name as employee_name')
-            ->selectRaw('departments.name as department_name')
+            ->selectRaw('employees.name_en as employee_name_en')
+            ->selectRaw('employees.name_my as employee_name_my')
+            ->selectRaw('departments.name_en as department_name_en')
+            ->selectRaw('departments.name_my as department_name_my')
             ->selectRaw('COUNT(*) as days_marked')
             ->selectRaw('SUM(CASE WHEN attendances.status = ? THEN 1 ELSE 0 END) as present_days', [AttendanceStatus::Present->value])
             ->selectRaw('SUM(CASE WHEN attendances.status = ? THEN 1 ELSE 0 END) as absent_days', [AttendanceStatus::Absent->value])
             ->selectRaw('SUM(attendances.hours_worked) as total_hours')
             ->selectRaw('SUM(attendances.minutes_worked) as total_minutes')
-            ->groupBy('employees.id', 'employees.name', 'departments.name')
-            ->orderBy('employees.name')
-            ->get();
+            ->groupBy('employees.id', 'employees.name_en', 'employees.name_my', 'departments.name_en', 'departments.name_my')
+            ->orderBy('employees.name_en')
+            ->get()
+            ->map(function ($row) {
+                $row->employee_name = $this->localized($row->employee_name_en, $row->employee_name_my);
+                $row->department_name = $this->localized($row->department_name_en, $row->department_name_my);
+
+                return $row;
+            });
 
         return [
             'summary' => $summary,
@@ -77,15 +93,22 @@ class ReportService
             ->first();
 
         $departmentRows = (clone $baseQuery)
-            ->selectRaw('COALESCE(departments.name, ?) as department_name', ['No department'])
+            ->selectRaw('departments.name_en as department_name_en')
+            ->selectRaw('departments.name_my as department_name_my')
             ->selectRaw('COUNT(*) as employee_count')
             ->selectRaw('SUM(payrolls.gross_salary) as total_gross')
             ->selectRaw('SUM(payrolls.total_advances) as total_advances')
             ->selectRaw('SUM(payrolls.net_pay) as total_net_pay')
             ->selectRaw('SUM(CASE WHEN payrolls.status = ? THEN 1 ELSE 0 END) as unpaid_count', [PayrollStatus::Unpaid->value])
-            ->groupBy('departments.name')
-            ->orderBy('department_name')
-            ->get();
+            ->groupBy('departments.name_en', 'departments.name_my')
+            ->orderBy('departments.name_en')
+            ->get()
+            ->map(function ($row) {
+                $row->department_name = $this->localized($row->department_name_en, $row->department_name_my)
+                    ?? 'No department';
+
+                return $row;
+            });
 
         return [
             'summary' => $summary,
@@ -108,11 +131,12 @@ class ReportService
             ->selectRaw('SUM(amount) as total_amount')
             ->first();
 
+        // Eloquent models: display_name is handled via accessors on Employee/Department models.
         $rows = (clone $baseQuery)
             ->with(['employee.department', 'advanceType'])
             ->orderByDesc('date')
             ->orderBy(
-                Employee::select('name')
+                Employee::select('name_en')
                     ->whereColumn('employees.id', 'cash_advances.employee_id')
                     ->limit(1),
             )
@@ -122,13 +146,21 @@ class ReportService
             ->join('employees', 'employees.id', '=', 'cash_advances.employee_id')
             ->leftJoin('departments', 'departments.id', '=', 'employees.department_id')
             ->select('employees.id as employee_id')
-            ->selectRaw('employees.name as employee_name')
-            ->selectRaw('departments.name as department_name')
+            ->selectRaw('employees.name_en as employee_name_en')
+            ->selectRaw('employees.name_my as employee_name_my')
+            ->selectRaw('departments.name_en as department_name_en')
+            ->selectRaw('departments.name_my as department_name_my')
             ->selectRaw('COUNT(*) as advance_count')
             ->selectRaw('SUM(cash_advances.amount) as total_amount')
-            ->groupBy('employees.id', 'employees.name', 'departments.name')
-            ->orderBy('employees.name')
-            ->get();
+            ->groupBy('employees.id', 'employees.name_en', 'employees.name_my', 'departments.name_en', 'departments.name_my')
+            ->orderBy('employees.name_en')
+            ->get()
+            ->map(function ($row) {
+                $row->employee_name = $this->localized($row->employee_name_en, $row->employee_name_my);
+                $row->department_name = $this->localized($row->department_name_en, $row->department_name_my);
+
+                return $row;
+            });
 
         return [
             'summary' => $summary,

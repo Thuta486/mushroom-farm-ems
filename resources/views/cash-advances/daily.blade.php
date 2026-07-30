@@ -81,7 +81,7 @@
     @push('scripts')
         <script>
             (function () {
-                const employees = @json($employees->map(fn ($e) => ['id' => $e->id, 'name' => $e->name])->values());
+                const employees = @json($employees->map(fn ($e) => ['id' => $e->id, 'name' => $e->display_name])->values());
                 const advanceTypes = @json($advanceTypes);
                 const seedRows = @json($seedRows ?? []);
                 const tbody = document.getElementById('advance-rows');

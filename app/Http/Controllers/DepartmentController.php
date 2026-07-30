@@ -13,7 +13,7 @@ class DepartmentController extends Controller
     {
         $departments = Department::query()
             ->withCount('employees')
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->get();
 
         return view('departments.index', compact('departments'));
@@ -40,9 +40,7 @@ class DepartmentController extends Controller
 
     public function update(StoreDepartmentRequest $request, Department $department): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:departments,name,'.$department->id],
-        ]);
+        $validated = $request->validated();
 
         $department->update($validated);
 

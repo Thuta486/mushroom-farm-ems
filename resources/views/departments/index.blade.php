@@ -23,7 +23,7 @@
             <tbody class="divide-y divide-stone-100">
                 @forelse ($departments as $department)
                     <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ $department->name }}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-stone-900">{{ $department->display_name }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $department->employees_count }}</td>
                         <td class="px-6 py-4 text-right text-sm">
                             <a href="{{ route('departments.edit', $department) }}" class="font-medium text-emerald-700 hover:text-emerald-800">{{ __('app.common.edit') }}</a>

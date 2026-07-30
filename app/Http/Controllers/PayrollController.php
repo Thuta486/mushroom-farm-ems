@@ -37,7 +37,7 @@ class PayrollController extends Controller
                 $query->where('employee_id', $request->integer('employee_id'));
             })
             ->orderBy(
-                Employee::select('name')
+                Employee::select('name_en')
                     ->whereColumn('employees.id', 'payrolls.employee_id')
                     ->limit(1),
             )
@@ -54,7 +54,7 @@ class PayrollController extends Controller
 
         return view('payrolls.index', [
             'payrolls' => $payrolls,
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->pluck('name_en', 'id'),
             'month' => $month,
             'year' => $year,
             'summary' => $summary,
@@ -79,7 +79,7 @@ class PayrollController extends Controller
             ->with('holiday')
             ->whereIn('employment_status', [EmploymentStatus::Active, EmploymentStatus::Inactive])
             ->whereDate('joining_date', '<=', $periodEnd)
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->get();
 
         $generated = 0;
@@ -172,7 +172,7 @@ class PayrollController extends Controller
 
         return view('payrolls.show', [
             'payroll' => $payroll,
-            'adjustmentTypes' => AdjustmentType::orderBy('name')->get(),
+            'adjustmentTypes' => AdjustmentType::orderBy('name_en')->get(),
         ]);
     }
 

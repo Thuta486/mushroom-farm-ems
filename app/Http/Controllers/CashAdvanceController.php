@@ -37,7 +37,7 @@ class CashAdvanceController extends Controller
 
         return view('cash-advances.index', [
             'cashAdvances' => $cashAdvances,
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -48,7 +48,7 @@ class CashAdvanceController extends Controller
         $employees = Employee::query()
             ->where('employment_status', EmploymentStatus::Active)
             ->whereDate('joining_date', '<=', $date)
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->get();
 
         $existingAdvances = CashAdvance::query()
@@ -61,7 +61,7 @@ class CashAdvanceController extends Controller
             'date' => $date,
             'employees' => $employees,
             'existingAdvances' => $existingAdvances,
-            'advanceTypes' => AdvanceType::orderBy('name')->pluck('name', 'id'),
+            'advanceTypes' => AdvanceType::orderBy('name_en')->get()->pluck('display_name', 'id'),
             'previousDate' => $date->copy()->subDay()->toDateString(),
             'nextDate' => $date->copy()->addDay()->toDateString(),
         ]);
@@ -109,8 +109,8 @@ class CashAdvanceController extends Controller
     public function create(): View
     {
         return view('cash-advances.create', [
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
-            'advanceTypes' => AdvanceType::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'advanceTypes' => AdvanceType::orderBy('name_en')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -129,8 +129,8 @@ class CashAdvanceController extends Controller
 
         return view('cash-advances.edit', [
             'cashAdvance' => $cashAdvance,
-            'employees' => Employee::orderBy('name')->pluck('name', 'id'),
-            'advanceTypes' => AdvanceType::orderBy('name')->pluck('name', 'id'),
+            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'advanceTypes' => AdvanceType::orderBy('name_en')->get()->pluck('display_name', 'id'),
         ]);
     }
 

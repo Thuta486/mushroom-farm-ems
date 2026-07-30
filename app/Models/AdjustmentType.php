@@ -10,10 +10,9 @@ class AdjustmentType extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'category',
-    ];
+    use \App\Traits\HasLocalizedAttributes;
+
+    protected $fillable = ['name_en', 'name_my', 'category'];
 
     public function payrollAdjustments(): HasMany
     {
