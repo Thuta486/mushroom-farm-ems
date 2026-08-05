@@ -20,18 +20,18 @@ class EmployeeFactory extends Factory
         return [
             'department_id' => Department::factory(),
             'name_en' => fake()->name(),
-            'name_my' => null,
-            'phone' => fake()->optional()->phoneNumber(),
-            'gender' => fake()->optional()->randomElement(['male', 'female']),
-            'date_of_birth' => fake()->optional()->date(),
-            'address' => fake()->optional()->address(),
+            'name_my' => fake()->name(),
+            'phone' => fake()->phoneNumber(),
+            'gender' => fake()->randomElement(['male', 'female']),
+            'date_of_birth' => fake()->date(),
+            'address' => fake()->address(),
             'joining_date' => fake()->date(),
-            'position_en' => fake()->optional()->randomElement(['Harvester', 'Packer', 'Cleaner', 'Supervisor']),
-            'position_my' => null,
+            'position_en' => fake()->randomElement(['Harvester', 'Packer', 'Cleaner', 'Supervisor', 'Accountant']),
+            'position_my' => fake()->randomElement(['Harvester', 'Packer', 'Cleaner', 'Supervisor', 'Accountant']),
             'employment_status' => EmploymentStatus::Active,
             'wage_amount' => fake()->numberBetween(150000, 500000),
-            'age' => fake()->optional()->numberBetween(18, 65),
-            'emergency_contact' => fake()->optional()->phoneNumber(),
+            'age' => fake()->numberBetween(18, 65),
+            'emergency_contact' => fake()->phoneNumber(),
         ];
     }
 }

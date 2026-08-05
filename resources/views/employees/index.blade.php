@@ -46,7 +46,7 @@
                             </a>
                         </td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->department?->display_name ?? '—' }}</td>
-                        <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->position ?? '—' }}</td>
+                        <td class="px-6 py-4 text-sm text-stone-600">{{ $employee->display_position ?: '—' }}</td>
                         <td class="px-6 py-4 text-sm text-stone-600">{{ number_format($employee->wage_amount, 0) }} {{ __('app.common.currency') }}</td>
                         <td class="px-6 py-4">
                             <x-status-badge :status="$employee->employment_status->value" />

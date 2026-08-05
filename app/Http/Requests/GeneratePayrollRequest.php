@@ -28,8 +28,8 @@ class GeneratePayrollRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'month.required' => 'Please select a month.',
-            'year.required' => 'Please enter a year.',
+            'month.required' => __('app.validation.generate_payroll_month_required'),
+            'year.required' => __('app.validation.generate_payroll_year_required'),
         ];
     }
 }

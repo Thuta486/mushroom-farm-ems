@@ -49,7 +49,7 @@ class StoreDailyAttendanceRequest extends FormRequest
                 if ($hours === 0 && $minutes === 0) {
                     $validator->errors()->add(
                         "attendances.{$index}.hours_worked",
-                        'Please enter hours or minutes for present employees.',
+                        __('app.validation.attendance_present_hours_or_minutes_required'),
                     );
                 }
             }
@@ -62,8 +62,8 @@ class StoreDailyAttendanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'date.required' => 'Please choose the attendance date.',
-            'attendances.required' => 'No employees were found to save.',
+            'date.required' => __('app.validation.daily_attendance_date_required'),
+            'attendances.required' => __('app.validation.attendances_required'),
         ];
     }
 }

@@ -44,10 +44,10 @@ class UpdateEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name_en.required' => 'Please enter the employee name.',
-            'joining_date.required' => 'Please enter the joining date.',
-            'wage_amount.required' => 'Please enter the monthly wage.',
-            'salary_change_reason.required' => 'Please provide a reason for the wage change.',
+            'name_en.required' => __('app.validation.employee_name_required'),
+            'joining_date.required' => __('app.validation.employee_joining_date_required'),
+            'wage_amount.required' => __('app.validation.employee_wage_amount_required'),
+            'salary_change_reason.required' => __('app.validation.employee_salary_change_reason_required'),
         ];
     }
 
@@ -66,7 +66,7 @@ class UpdateEmployeeRequest extends FormRequest
             if ($newWage !== $oldWage && blank($this->input('salary_change_reason'))) {
                 $validator->errors()->add(
                     'salary_change_reason',
-                    'Please provide a reason for the wage change.',
+                    __('app.validation.employee_salary_change_reason_required'),
                 );
             }
         });

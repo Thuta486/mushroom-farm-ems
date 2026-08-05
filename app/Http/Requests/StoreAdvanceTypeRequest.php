@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAdvanceTypeRequest extends FormRequest
 {
@@ -17,8 +18,21 @@ class StoreAdvanceTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => ['required', 'string', 'max:255', 'unique:advance_types,name_en'],
-            'name_my' => ['nullable', 'string', 'max:255'],
+            'name_en' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('advance_types', 'name_en')
+                    ->ignore($this->route('advance_type')),
+            ],
+
+            'name_my' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('advance_types', 'name_my')
+                    ->ignore($this->route('advance_type')),
+            ],
         ];
     }
 
@@ -28,8 +42,10 @@ class StoreAdvanceTypeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name_en.required' => 'Please enter an advance type name.',
-            'name_en.unique' => 'This advance type already exists.',
+            'name_en.required' => __('app.validation.advance_type_name_required'),
+            'name_en.unique' => __('app.validation.advance_type_name_unique'),
+            'name_my.required' => __('app.validation.advance_type_name_required'),
+            'name_my.unique' => __('app.validation.advance_type_name_unique'),
         ];
     }
 }

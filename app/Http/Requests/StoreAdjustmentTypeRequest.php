@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAdjustmentTypeRequest extends FormRequest
 {
@@ -17,8 +18,9 @@ class StoreAdjustmentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => ['required', 'string', 'max:255', 'unique:adjustment_types,name_en'],
-            'name_my' => ['nullable', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255', Rule::unique('adjustment_types', 'name_en')->ignore($this->route('adjustment_type'))],
+            'name_my' => ['required', 'string', 'max:255', Rule::unique('adjustment_types', 'name_my')->ignore($this->route('adjustment_type'))],
+            'category' => ['required', Rule::in(['bonus', 'deduction'])],
         ];
     }
 
@@ -28,9 +30,12 @@ class StoreAdjustmentTypeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Please enter an adjustment type name.',
-            'name.unique' => 'This adjustment type already exists.',
-            'category.in' => 'Invalid category selected.',
+            'name_en.required' => __('app.validation.adjustment_type_name_required'),
+            'name_en.unique' => __('app.validation.adjustment_type_name_unique'),
+            'name_my.required' => __('app.validation.adjustment_type_name_required'),
+            'name_my.unique' => __('app.validation.adjustment_type_name_unique'),
+            'category.required' => __('app.validation.adjustment_category_required'),
+            'category.in' => __('app.validation.adjustment_category_invalid'),
         ];
     }
 }

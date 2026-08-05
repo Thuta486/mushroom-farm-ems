@@ -15,15 +15,15 @@
     };
 
     $label = match ($status) {
-        'active' => 'Active',
-        'inactive' => 'Inactive',
-        'terminated' => 'Terminated',
-        'present' => 'Present',
-        'absent' => 'Absent',
-        'paid' => 'Paid',
-        'unpaid' => 'Unpaid',
-        'superadmin' => 'Super Admin',
-        'admin' => 'Admin',
+        'active' => __('app.status.active'),
+        'inactive' => __('app.status.inactive'),
+        'terminated' => __('app.status.terminated'),
+        'present' => __('app.status.present'),
+        'absent' => __('app.status.absent'),
+        'paid' => __('app.status.paid'),
+        'unpaid' => __('app.status.unpaid'),
+        'superadmin' => __('app.status.superadmin'),
+        'admin' => __('app.status.admin'),
         default => ucfirst((string) $status),
     };
 @endphp

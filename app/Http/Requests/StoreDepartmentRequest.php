@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDepartmentRequest extends FormRequest
 {
@@ -17,8 +18,20 @@ class StoreDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => ['required', 'string', 'max:255', 'unique:departments,name_en'],
-            'name_my' => ['nullable', 'string', 'max:255'],
+            'name_en' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('departments', 'name_en')
+                    ->ignore($this->route('department')),
+            ],
+            'name_my' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('departments', 'name_my')
+                    ->ignore($this->route('department')),
+            ],
         ];
     }
 
@@ -28,8 +41,10 @@ class StoreDepartmentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name_en.required' => 'Please enter a department name (English).',
-            'name_en.unique' => 'This department already exists.',
+            'name_en.required' => __('app.validation.department_name_required'),
+            'name_en.unique' => __('app.validation.department_name_unique'),
+            'name_my.required' => __('app.validation.department_name_required'),
+            'name_my.unique' => __('app.validation.department_name_unique'),
         ];
     }
 }

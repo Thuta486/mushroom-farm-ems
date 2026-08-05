@@ -10,8 +10,8 @@ enum PayrollStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Unpaid => 'Unpaid',
-            self::Paid => 'Paid',
+            self::Unpaid => __('app.status.unpaid'),
+            self::Paid => __('app.status.paid'),
         };
     }
 

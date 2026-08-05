@@ -34,10 +34,12 @@ class AdjustmentTypeSeeder extends Seeder
         ];
 
         foreach ($adjustmentTypes as $type) {
-            AdjustmentType::query()->firstOrCreate(
+            AdjustmentType::query()->updateOrCreate(
                 ['name_en' => $type['name_en']],
-                ['name_my' => $type['name_my']],
-                ['category' => $type['category']]
+                [
+                    'name_my' => $type['name_my'],
+                    'category' => $type['category'],
+                ],
             );
         }
     }

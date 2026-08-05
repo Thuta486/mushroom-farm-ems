@@ -37,7 +37,7 @@ class CashAdvanceController extends Controller
 
         return view('cash-advances.index', [
             'cashAdvances' => $cashAdvances,
-            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'employees' => Employee::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -48,7 +48,7 @@ class CashAdvanceController extends Controller
         $employees = Employee::query()
             ->where('employment_status', EmploymentStatus::Active)
             ->whereDate('joining_date', '<=', $date)
-            ->orderBy('name_en')
+            ->orderBy('name_en', 'asc')
             ->get();
 
         $existingAdvances = CashAdvance::query()
@@ -103,14 +103,14 @@ class CashAdvanceController extends Controller
 
         return redirect()
             ->route('cash-advances.daily', ['date' => $date])
-            ->with('success', 'Cash advances saved for '.$request->date('date')->format('d M Y').'.');
+            ->with('success', __('app.flash.cash_advances_saved', ['date' => $request->date('date')->format('d M Y')]));
     }
 
     public function create(): View
     {
         return view('cash-advances.create', [
-            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
-            'advanceTypes' => AdvanceType::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'employees' => Employee::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
+            'advanceTypes' => AdvanceType::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -120,7 +120,7 @@ class CashAdvanceController extends Controller
 
         return redirect()
             ->route('cash-advances.index')
-            ->with('success', 'Cash advance recorded.');
+            ->with('success', __('app.flash.cash_advance_recorded'));
     }
 
     public function edit(CashAdvance $cashAdvance): View
@@ -129,8 +129,8 @@ class CashAdvanceController extends Controller
 
         return view('cash-advances.edit', [
             'cashAdvance' => $cashAdvance,
-            'employees' => Employee::orderBy('name_en')->get()->pluck('display_name', 'id'),
-            'advanceTypes' => AdvanceType::orderBy('name_en')->get()->pluck('display_name', 'id'),
+            'employees' => Employee::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
+            'advanceTypes' => AdvanceType::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -140,7 +140,7 @@ class CashAdvanceController extends Controller
 
         return redirect()
             ->route('cash-advances.index')
-            ->with('success', 'Cash advance updated.');
+            ->with('success', __('app.flash.cash_advance_updated'));
     }
 
     public function destroy(CashAdvance $cashAdvance): RedirectResponse
@@ -149,6 +149,6 @@ class CashAdvanceController extends Controller
 
         return redirect()
             ->route('cash-advances.index')
-            ->with('success', 'Cash advance removed.');
+            ->with('success', __('app.flash.cash_advance_removed'));
     }
 }

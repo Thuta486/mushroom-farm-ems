@@ -29,9 +29,9 @@ class StorePayrollAdjustmentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'adjustment_type_id.required' => 'Please select an adjustment type.',
-            'amount.required' => 'Please enter the amount.',
-            'amount.min' => 'Amount must be greater than zero.',
+            'adjustment_type_id.required' => __('app.validation.payroll_adjustment_type_required'),
+            'amount.required' => __('app.validation.amount_required'),
+            'amount.min' => __('app.validation.amount_min'),
         ];
     }
 }

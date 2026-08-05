@@ -22,9 +22,9 @@
 <x-form-textarea name="address" label="{{ __('app.employees.address') }}" :value="$employee?->address" class="mt-5" />
 
 @if ($employee)
-    <div class="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4">
+    <div class="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-700 dark:bg-amber-950">
         <x-form-input name="salary_change_reason" label="{{ __('app.employees.reason_for_wage_change') }}" :value="old('salary_change_reason')" />
-        <p class="mt-2 text-sm text-amber-800">{{ __('app.employees.reason_for_wage_change_help') }}</p>
+        <p class="mt-2 text-sm text-amber-800 dark:text-amber-200">{{ __('app.employees.reason_for_wage_change_help') }}</p>
     </div>
 @endif
 

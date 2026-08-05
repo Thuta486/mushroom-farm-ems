@@ -19,7 +19,13 @@ class EmployeeController extends Controller
         $employees = Employee::query()
             ->with('department')
             ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name_en', 'like', '%'.$request->string('search').'%');
+                $search = $request->string('search')->toString();
+
+                $query->where(function ($employeeQuery) use ($search) {
+                    $employeeQuery
+                        ->where('name_en', 'like', "%{$search}%")
+                        ->orWhere('name_my', 'like', "%{$search}%");
+                });
             })
             ->when($request->filled('department_id'), function ($query) use ($request) {
                 $query->where('department_id', $request->integer('department_id'));
@@ -33,14 +39,14 @@ class EmployeeController extends Controller
 
         return view('employees.index', [
             'employees' => $employees,
-            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
+            'departments' => Department::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
     public function create(): View
     {
         return view('employees.create', [
-            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
+            'departments' => Department::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -66,7 +72,7 @@ class EmployeeController extends Controller
 
         return redirect()
             ->route('employees.show', $employee)
-            ->with('success', 'Employee added successfully.');
+            ->with('success', __('app.flash.employee_added'));
     }
 
     public function show(Employee $employee): View
@@ -87,7 +93,7 @@ class EmployeeController extends Controller
 
         return view('employees.edit', [
             'employee' => $employee,
-            'departments' => Department::orderBy('name_en')->pluck('name_en', 'id'),
+            'departments' => Department::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
         ]);
     }
 
@@ -118,7 +124,7 @@ class EmployeeController extends Controller
 
         return redirect()
             ->route('employees.show', $employee)
-            ->with('success', 'Employee updated successfully.');
+            ->with('success', __('app.flash.employee_updated'));
     }
 
     public function destroy(Employee $employee): RedirectResponse
@@ -128,7 +134,7 @@ class EmployeeController extends Controller
 
             return redirect()
                 ->route('employees.index')
-                ->with('success', 'Employee marked as terminated. Records were kept for payroll and attendance history.');
+                ->with('success', __('app.flash.employee_terminated'));
         }
 
         DB::transaction(function () use ($employee): void {
@@ -140,6 +146,6 @@ class EmployeeController extends Controller
 
         return redirect()
             ->route('employees.index')
-            ->with('success', 'Employee removed successfully.');
+            ->with('success', __('app.flash.employee_removed'));
     }
 }

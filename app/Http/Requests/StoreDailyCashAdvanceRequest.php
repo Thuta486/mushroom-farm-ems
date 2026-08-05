@@ -41,7 +41,7 @@ class StoreDailyCashAdvanceRequest extends FormRequest
                 if ($amount > 0 && empty($row['advance_type_id'])) {
                     $validator->errors()->add(
                         "advances.{$index}.advance_type_id",
-                        'Please select an advance type for this amount.',
+                        __('app.validation.advance_type_for_amount_required'),
                     );
                 }
             }
@@ -54,7 +54,7 @@ class StoreDailyCashAdvanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'date.required' => 'Please choose the date.',
+            'date.required' => __('app.validation.daily_cash_advance_date_required'),
         ];
     }
 }

@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        $users = User::query()->orderBy('name')->get();
+        $users = User::query()->orderBy('name', 'asc')->get();
 
         return view('users.index', compact('users'));
     }
@@ -32,7 +32,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', 'User added successfully.');
+            ->with('success', __('app.flash.user_added'));
     }
 
     public function edit(User $user): View
@@ -54,19 +54,19 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', 'User updated successfully.');
+            ->with('success', __('app.flash.user_updated'));
     }
 
     public function destroy(User $user): RedirectResponse
     {
         if ($user->id === request()->user()->id) {
-            return back()->with('error', 'You cannot delete your own account.');
+            return back()->with('error', __('app.flash.user_delete_blocked'));
         }
 
         $user->delete();
 
         return redirect()
             ->route('users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', __('app.flash.user_deleted'));
     }
 }

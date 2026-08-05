@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -23,11 +24,15 @@ class LoginController extends Controller
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()
                 ->withInput($request->only('email', 'remember'))
-                ->withErrors(['email' => 'These credentials do not match our records.']);
+                ->withErrors(['email' => __('app.validation.login_failed')]);
         }
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+        if ($user->role === UserRole::Admin) {
+            return redirect()->route('attendances.index');
+        }
         return redirect()->intended(route('dashboard'));
     }
 

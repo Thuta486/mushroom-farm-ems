@@ -30,7 +30,7 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('departments.index')
-            ->with('success', 'Department added successfully.');
+            ->with('success', __('app.flash.department_added'));
     }
 
     public function edit(Department $department): View
@@ -46,19 +46,19 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('departments.index')
-            ->with('success', 'Department updated successfully.');
+            ->with('success', __('app.flash.department_updated'));
     }
 
     public function destroy(Department $department): RedirectResponse
     {
         if ($department->employees()->exists()) {
-            return back()->with('error', 'Cannot delete a department that has employees assigned.');
+            return back()->with('error', __('app.flash.department_delete_blocked'));
         }
 
         $department->delete();
 
         return redirect()
             ->route('departments.index')
-            ->with('success', 'Department deleted successfully.');
+            ->with('success', __('app.flash.department_deleted'));
     }
 }

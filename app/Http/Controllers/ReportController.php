@@ -29,8 +29,8 @@ class ReportController extends Controller
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'report' => $this->reports->attendanceReport($dateFrom, $dateTo, $departmentId, $employeeId),
-            'employees' => Employee::orderBy('name_en')->get()->mapWithKeys(fn ($e) => [$e->id => $e->display_name]),
-            'departments' => Department::orderBy('name_en')->get()->mapWithKeys(fn ($d) => [$d->id => $d->display_name]),
+            'employees' => Employee::orderBy('name_en', 'asc')->get()->mapWithKeys(fn ($e) => [$e->id => $e->display_name]),
+            'departments' => Department::orderBy('name_en', 'asc')->get()->mapWithKeys(fn ($d) => [$d->id => $d->display_name]),
         ]);
     }
 

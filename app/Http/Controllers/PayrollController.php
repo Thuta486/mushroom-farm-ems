@@ -54,7 +54,7 @@ class PayrollController extends Controller
 
         return view('payrolls.index', [
             'payrolls' => $payrolls,
-            'employees' => Employee::orderBy('name_en')->pluck('name_en', 'id'),
+            'employees' => Employee::orderBy('name_en', 'asc')->get()->pluck('display_name', 'id'),
             'month' => $month,
             'year' => $year,
             'summary' => $summary,
@@ -153,9 +153,9 @@ class PayrollController extends Controller
             }
         });
 
-        $message = "Payroll generated for {$generated} employee(s).";
+        $message = __('app.flash.payroll_generated', ['count' => $generated]);
         if ($skipped > 0) {
-            $message .= " {$skipped} paid record(s) were left unchanged.";
+            $message .= ' '.__('app.flash.payroll_generated_skipped', ['skipped' => $skipped]);
         }
 
         return redirect()
@@ -181,14 +181,14 @@ class PayrollController extends Controller
         if ($payroll->status === PayrollStatus::Paid) {
             return redirect()
                 ->route('payrolls.show', $payroll)
-                ->with('error', 'This payroll is already marked as paid.');
+                ->with('error', __('app.flash.payroll_already_paid'));
         }
 
         $payroll->update(['status' => PayrollStatus::Paid]);
 
         return redirect()
             ->route('payrolls.show', $payroll)
-            ->with('success', 'Payroll marked as paid.');
+            ->with('success', __('app.flash.payroll_marked_paid'));
     }
 
     public function markUnpaid(Payroll $payroll): RedirectResponse
@@ -196,14 +196,14 @@ class PayrollController extends Controller
         if ($payroll->status === PayrollStatus::Unpaid) {
             return redirect()
                 ->route('payrolls.show', $payroll)
-                ->with('error', 'This payroll is already marked as unpaid.');
+                ->with('error', __('app.flash.payroll_already_unpaid'));
         }
 
         $payroll->update(['status' => PayrollStatus::Unpaid]);
 
         return redirect()
             ->route('payrolls.show', $payroll)
-            ->with('success', 'Payroll marked as unpaid.');
+            ->with('success', __('app.flash.payroll_marked_unpaid'));
     }
 
     public function storeAdjustment(StorePayrollAdjustmentRequest $request, Payroll $payroll): RedirectResponse
@@ -211,7 +211,7 @@ class PayrollController extends Controller
         if ($payroll->status === PayrollStatus::Paid) {
             return redirect()
                 ->route('payrolls.show', $payroll)
-                ->with('error', 'Cannot add adjustments to a paid payroll.');
+                ->with('error', __('app.flash.payroll_cannot_add_adjustments_paid'));
         }
 
         DB::transaction(function () use ($request, $payroll): void {
@@ -225,7 +225,7 @@ class PayrollController extends Controller
 
         return redirect()
             ->route('payrolls.show', $payroll)
-            ->with('success', 'Adjustment added.');
+            ->with('success', __('app.flash.adjustment_added'));
     }
 
     public function destroyAdjustment(Payroll $payroll, PayrollAdjustment $adjustment): RedirectResponse
@@ -233,7 +233,7 @@ class PayrollController extends Controller
         if ($payroll->status === PayrollStatus::Paid) {
             return redirect()
                 ->route('payrolls.show', $payroll)
-                ->with('error', 'Cannot remove adjustments from a paid payroll.');
+                ->with('error', __('app.flash.payroll_cannot_remove_adjustments_paid'));
         }
 
         if ($adjustment->payroll_id !== $payroll->id) {
@@ -247,6 +247,6 @@ class PayrollController extends Controller
 
         return redirect()
             ->route('payrolls.show', $payroll)
-            ->with('success', 'Adjustment removed.');
+            ->with('success', __('app.flash.adjustment_removed'));
     }
 }

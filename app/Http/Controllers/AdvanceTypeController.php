@@ -30,7 +30,7 @@ class AdvanceTypeController extends Controller
 
         return redirect()
             ->route('advance-types.index')
-            ->with('success', 'Advance type added successfully.');
+            ->with('success', __('app.flash.advance_type_added'));
     }
 
     public function edit(AdvanceType $advanceType): View
@@ -46,19 +46,19 @@ class AdvanceTypeController extends Controller
 
         return redirect()
             ->route('advance-types.index')
-            ->with('success', 'Advance type updated successfully.');
+            ->with('success', __('app.flash.advance_type_updated'));
     }
 
     public function destroy(AdvanceType $advanceType): RedirectResponse
     {
         if ($advanceType->cashAdvances()->exists()) {
-            return back()->with('error', 'Cannot delete an advance type that has cash advances recorded against it.');
+            return back()->with('error', __('app.flash.advance_type_delete_blocked'));
         }
 
         $advanceType->delete();
 
         return redirect()
             ->route('advance-types.index')
-            ->with('success', 'Advance type deleted successfully.');
+            ->with('success', __('app.flash.advance_type_deleted'));
     }
 }

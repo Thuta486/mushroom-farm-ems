@@ -43,10 +43,10 @@ class StoreEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name_en.required' => 'Please enter the employee name.',
-            'joining_date.required' => 'Please enter the joining date.',
-            'wage_amount.required' => 'Please enter the monthly wage.',
-            'wage_amount.min' => 'Wage cannot be negative.',
+            'name_en.required' => __('app.validation.employee_name_required'),
+            'joining_date.required' => __('app.validation.employee_joining_date_required'),
+            'wage_amount.required' => __('app.validation.employee_wage_amount_required'),
+            'wage_amount.min' => __('app.validation.employee_wage_amount_min'),
         ];
     }
 }

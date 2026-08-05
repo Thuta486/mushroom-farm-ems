@@ -5,6 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') — {{ config('app.name', 'Mushroom Farm EMS') }}</title>
+    <script>
+        (() => {
+            let storedTheme = null;
+
+            try {
+                storedTheme = localStorage.getItem('mushroom-farm-theme');
+            } catch {
+                // The current browser context does not allow persistent storage.
+            }
+
+            const theme = ['light', 'dark', 'system'].includes(storedTheme) ? storedTheme : 'system';
+            const resolvedTheme = theme === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : theme;
+
+            document.documentElement.dataset.theme = resolvedTheme;
+            document.documentElement.dataset.themeMode = theme;
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -16,14 +35,6 @@
         <aside id="sidebar" class="relative flex shrink-0 flex-col border-r border-stone-200 bg-white">
             <div class="border-b border-stone-200 px-5 py-5">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                    <span
-                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-700 text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                    </span>
                     <div class="min-w-0">
                         <p class="truncate text-sm font-semibold text-emerald-800">{{ __('app.login.name') }}</p>
                     </div>
@@ -205,6 +216,8 @@
                     <p class="truncate text-sm font-medium text-stone-900">@yield('title', 'Dashboard')</p>
                     <p class="truncate text-xs text-stone-500">{{ config('app.name', 'Mushroom Farm EMS') }}</p>
                 </div>
+
+                <x-theme-switcher />
 
                 <div class="flex shrink-0 items-center gap-1 rounded-lg border border-stone-300 bg-white p-1 text-sm">
                     <form method="POST" action="{{ route('locale.update', 'en') }}">

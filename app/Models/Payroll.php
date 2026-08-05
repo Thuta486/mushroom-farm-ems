@@ -56,4 +56,13 @@ class Payroll extends Model
     {
         return $this->hasMany(PayrollAdjustment::class);
     }
+
+    public function getAttendanceDeductionAttribute()
+    {
+        $adjustmentsTotal = $this->payrollAdjustments
+            ->where('adjustmentType.category', 'deduction')
+            ->sum('amount');
+
+        return $this->total_deduction - $adjustmentsTotal;
+    }
 }

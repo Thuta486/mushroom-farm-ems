@@ -116,7 +116,7 @@ class AttendanceController extends Controller
 
         return redirect()
             ->route('attendances.daily', ['date' => $date])
-            ->with('success', 'Attendance saved for '.$request->date('date')->format('d M Y').'.');
+            ->with('success', __('app.flash.attendance_saved', ['date' => $request->date('date')->format('d M Y')]));
     }
 
     public function edit(Attendance $attendance): View
@@ -144,7 +144,7 @@ class AttendanceController extends Controller
                 'date_from' => $attendance->date->toDateString(),
                 'date_to' => $attendance->date->toDateString(),
             ])
-            ->with('success', 'Attendance record updated.');
+            ->with('success', __('app.flash.attendance_updated'));
     }
 
     public function destroy(Attendance $attendance): RedirectResponse
@@ -157,6 +157,6 @@ class AttendanceController extends Controller
                 'date_from' => $date,
                 'date_to' => $date,
             ])
-            ->with('success', 'Attendance record removed.');
+            ->with('success', __('app.flash.attendance_removed'));
     }
 }

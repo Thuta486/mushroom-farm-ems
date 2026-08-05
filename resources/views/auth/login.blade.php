@@ -5,6 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ __('app.login.name') }}</title>
+    <script>
+        (() => {
+            let storedTheme = null;
+
+            try {
+                storedTheme = localStorage.getItem('mushroom-farm-theme');
+            } catch {
+                // The current browser context does not allow persistent storage.
+            }
+
+            const theme = ['light', 'dark', 'system'].includes(storedTheme) ? storedTheme : 'system';
+            const resolvedTheme = theme === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : theme;
+
+            document.documentElement.dataset.theme = resolvedTheme;
+            document.documentElement.dataset.themeMode = theme;
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -13,7 +32,9 @@
         <div class="w-full max-w-md">
 
             <!-- Language Switcher -->
-            <div class="mb-4 flex justify-end">
+            <div class="mb-4 flex items-center justify-end gap-2">
+                <x-theme-switcher />
+
                 <div class="flex gap-1 rounded-lg border border-stone-300 bg-white p-1 text-sm">
                     <form method="POST" action="{{ route('locale.update', 'en') }}">
                         @csrf

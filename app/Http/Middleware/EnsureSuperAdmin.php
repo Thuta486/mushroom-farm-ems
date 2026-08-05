@@ -16,7 +16,6 @@ class EnsureSuperAdmin
      * @var array<int, string>
      */
     private const ADMIN_ALLOWED_ROUTE_PREFIXES = [
-        'dashboard',
         'attendances',
         'cash-advances',
         'logout',

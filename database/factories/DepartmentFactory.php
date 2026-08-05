@@ -16,12 +16,27 @@ class DepartmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->randomElement([
-                'Harvesting',
-                'Packaging',
+            'name_en' => fake()->unique()->randomElement([
+                'Administration',
+                'Logistics',
+                'Mixing & Packaging',
+                'Steaming',
+                'Spawn Filling',
+                'Incubation',
+                'Fruiting House',
                 'Cleaning',
-                'Spawn Production',
-                'Maintenance',
+                'Harvesting',
+            ]),
+            'name_my' => fake()->unique()->randomElement([
+                'စီမံရေးရာ',
+                'ပို့ဆောင်ရေးနှင့် ထောက်ပံ့ရေး',
+                'ရောစပ်ခြင်းနှင့် ထုပ်ပိုးခြင်း',
+                'ပေါင်းခံခြင်း',
+                'မှိုမျိုးထည့်သွင်းခြင်း',
+                'မှိုမျိုးပွားခန်း',
+                'မှိုထွက်ခန်း',
+                'သန့်ရှင်းရေး',
+                'မှိုခူးယူရေး',
             ]),
         ];
     }

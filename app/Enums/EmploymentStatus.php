@@ -11,9 +11,9 @@ enum EmploymentStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Active => 'Active',
-            self::Inactive => 'Inactive',
-            self::Terminated => 'Terminated',
+            self::Active => __('app.status.active'),
+            self::Inactive => __('app.status.inactive'),
+            self::Terminated => __('app.status.terminated'),
         };
     }
 

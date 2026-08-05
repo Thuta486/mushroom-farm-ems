@@ -31,11 +31,11 @@ class UpdateCashAdvanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'employee_id.required' => 'Please select an employee.',
-            'advance_type_id.required' => 'Please select an advance type.',
-            'date.required' => 'Please enter the advance date.',
-            'amount.required' => 'Please enter the advance amount.',
-            'amount.min' => 'Advance amount must be greater than zero.',
+            'employee_id.required' => __('app.validation.cash_advance_employee_required'),
+            'advance_type_id.required' => __('app.validation.advance_type_required'),
+            'date.required' => __('app.validation.cash_advance_date_required'),
+            'amount.required' => __('app.validation.cash_advance_amount_required'),
+            'amount.min' => __('app.validation.cash_advance_amount_min'),
         ];
     }
 }

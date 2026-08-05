@@ -49,7 +49,6 @@
                                 <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500 sm:px-6">{{ __('app.attendance.status') }}</th>
                                 <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500 sm:px-6">{{ __('app.attendance.hours_worked') }}</th>
                                 <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500 sm:px-6">{{ __('app.attendance.minutes_worked') }}</th>
-                                <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500 sm:px-6">{{ __('app.attendance.work_type') }}</th>
                                 <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone-500 sm:px-6">{{ __('app.common.notes') }}</th>
                             </tr>
                         </thead>
@@ -60,14 +59,13 @@
                                     $status = old("attendances.{$index}.status", $record?->status->value ?? AttendanceStatus::Present->value);
                                     $hours = old("attendances.{$index}.hours_worked", $record?->hours_worked ?? 8);
                                     $minutes = old("attendances.{$index}.minutes_worked", $record?->minutes_worked ?? 0);
-                                    $workType = null;
                                     $notes = old("attendances.{$index}.notes", $record?->notes);
                                 @endphp
                                 <tr>
                                     <td class="px-4 py-4 sm:px-6">
                                         <input type="hidden" name="attendances[{{ $index }}][employee_id]" value="{{ $employee->id }}">
                                         <span class="font-medium text-stone-900">{{ $employee->display_name }}</span>
-                                        <p class="text-xs text-stone-500">{{ $employee->position ?? 'No position' }}</p>
+                                        <p class="text-xs text-stone-500">{{ $employee->display_position ?: __('app.employees.no_position_set') }}</p>
                                     </td>
                                     <td class="px-4 py-4 text-sm text-stone-600 sm:px-6">{{ $employee->department?->display_name ?? '—' }}</td>
                                     <td class="px-4 py-4 sm:px-6">

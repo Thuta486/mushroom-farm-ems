@@ -3,18 +3,16 @@
 namespace App\Models;
 
 use App\Enums\EmploymentStatus;
+use App\Traits\HasLocalizedAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Traits\HasLocalizedAttributes;
 
 class Employee extends Model
 {
     use HasFactory;
-
-
     use HasLocalizedAttributes;
 
     protected $fillable = [
@@ -67,25 +65,5 @@ class Employee extends Model
     public function payrolls(): HasMany
     {
         return $this->hasMany(Payroll::class);
-    }
-
-    public function getDisplayPositionAttribute(): string
-    {
-        return $this->localized('position');
-    }
-
-    public function getDisplayNameAttribute(): string
-    {
-        $locale = app()->getLocale();
-
-        if ($locale === 'my' && $this->name_my) {
-            return $this->name_my;
-        }
-
-        if ($locale === 'en' && $this->name_en) {
-            return $this->name_en;
-        }
-
-        return $this->name ?? $this->name_en ?? $this->name_my ?? '';
     }
 }

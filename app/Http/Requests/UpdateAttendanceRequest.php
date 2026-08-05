@@ -39,7 +39,7 @@ class UpdateAttendanceRequest extends FormRequest
             $minutes = (int) $this->input('minutes_worked', 0);
 
             if ($hours === 0 && $minutes === 0) {
-                $validator->errors()->add('hours_worked', 'Please enter hours or minutes for a present day.');
+                $validator->errors()->add('hours_worked', __('app.validation.attendance_present_hours_or_minutes_required'));
             }
         });
     }
@@ -50,7 +50,7 @@ class UpdateAttendanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'status.required' => 'Please choose present or absent.',
+            'status.required' => __('app.validation.attendance_status_required'),
         ];
     }
 }
