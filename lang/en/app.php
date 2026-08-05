@@ -8,6 +8,20 @@ return [
         'password' => 'Password',
         'remember' => 'Remember me',
         'submit' => 'Sign in',
+        'forgot_password' => 'Forgot your password?',
+    ],
+
+    'password_reset' => [
+        'title' => 'Forgot Password',
+        'subtitle' => 'Enter your email and we will send you a password reset link.',
+        'email' => 'Email',
+        'send_link' => 'Send Reset Link',
+        'back_to_login' => 'Back to login',
+        'reset_title' => 'Reset Password',
+        'reset_subtitle' => 'Enter your new password below.',
+        'new_password' => 'New Password',
+        'confirm_password' => 'Confirm Password',
+        'reset_button' => 'Reset Password',
     ],
 
     'nav' => [
@@ -120,6 +134,11 @@ return [
         'attendance_status_required' => 'Please choose present or absent.',
         'employee_salary_change_reason_required' => 'Please provide a reason for the wage change.',
         'login_failed' => 'These credentials do not match our records.',
+        'reset_email_required' => 'Please enter your email address.',
+        'reset_email_valid' => 'Please enter a valid email address.',
+        'reset_password_required' => 'Please enter a new password.',
+        'reset_password_min' => 'Password must be at least 8 characters.',
+        'reset_password_confirmed' => 'Password confirmation does not match.',
     ],
 
     'common' => [

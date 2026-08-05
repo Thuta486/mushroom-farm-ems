@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('app.login.name') }}</title>
+    <title>{{ __('app.password_reset.title') }}</title>
     <script>
         (() => {
             let storedTheme = null;
@@ -54,40 +54,38 @@
                 </div>
             </div>
 
-            <!-- Login Card -->
+            <!-- Forgot Password Card -->
             <div class="rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
                 <div class="mb-8 text-center">
                     <h1 class="text-2xl font-semibold text-emerald-800">
-                        {{ __('app.login.name') }}
+                        {{ __('app.password_reset.title') }}
                     </h1>
                     <p class="mt-2 text-sm text-stone-500">
-                        {{ __('app.login.subtitle') }}
+                        {{ __('app.password_reset.subtitle') }}
                     </p>
                 </div>
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                @if (session('status'))
+                    <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
                     @csrf
 
-                    <x-form-input name="email" :label="__('app.login.email')" type="email" :value="old('email')" required />
-
-                    <x-form-input name="password" :label="__('app.login.password')" type="password" required />
-
-                    <label class="flex items-center gap-2 text-sm text-stone-600">
-                        <input type="checkbox" name="remember"
-                            class="rounded border-stone-300 text-emerald-700 focus:ring-emerald-500">
-                        {{ __('app.login.remember') }}
-                    </label>
-
-                    <div class="flex items-center justify-between">
-                        <a href="{{ route('password.request') }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">
-                            {{ __('app.login.forgot_password') }}
-                        </a>
-                    </div>
+                    <x-form-input name="email" :label="__('app.password_reset.email')" type="email" :value="old('email')" required />
 
                     <x-button type="submit" class="w-full">
-                        {{ __('app.login.submit') }}
+                        {{ __('app.password_reset.send_link') }}
                     </x-button>
                 </form>
+
+                <div class="mt-6 text-center text-sm">
+                    <a href="{{ route('login') }}" class="font-medium text-emerald-700 hover:text-emerald-800">
+                        {{ __('app.password_reset.back_to_login') }}
+                    </a>
+                </div>
             </div>
 
         </div>

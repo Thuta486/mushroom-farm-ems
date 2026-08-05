@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('app.login.name') }}</title>
+    <title>{{ __('app.password_reset.reset_title') }}</title>
     <script>
         (() => {
             let storedTheme = null;
@@ -54,38 +54,29 @@
                 </div>
             </div>
 
-            <!-- Login Card -->
+            <!-- Reset Password Card -->
             <div class="rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
                 <div class="mb-8 text-center">
                     <h1 class="text-2xl font-semibold text-emerald-800">
-                        {{ __('app.login.name') }}
+                        {{ __('app.password_reset.reset_title') }}
                     </h1>
                     <p class="mt-2 text-sm text-stone-500">
-                        {{ __('app.login.subtitle') }}
+                        {{ __('app.password_reset.reset_subtitle') }}
                     </p>
                 </div>
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                <form method="POST" action="{{ route('password.update') }}" class="space-y-5">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-                    <x-form-input name="email" :label="__('app.login.email')" type="email" :value="old('email')" required />
+                    <x-form-input name="email" :label="__('app.password_reset.email')" type="email" :value="old('email', $request->email)" required />
 
-                    <x-form-input name="password" :label="__('app.login.password')" type="password" required />
+                    <x-form-input name="password" :label="__('app.password_reset.new_password')" type="password" required />
 
-                    <label class="flex items-center gap-2 text-sm text-stone-600">
-                        <input type="checkbox" name="remember"
-                            class="rounded border-stone-300 text-emerald-700 focus:ring-emerald-500">
-                        {{ __('app.login.remember') }}
-                    </label>
-
-                    <div class="flex items-center justify-between">
-                        <a href="{{ route('password.request') }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">
-                            {{ __('app.login.forgot_password') }}
-                        </a>
-                    </div>
+                    <x-form-input name="password_confirmation" :label="__('app.password_reset.confirm_password')" type="password" required />
 
                     <x-button type="submit" class="w-full">
-                        {{ __('app.login.submit') }}
+                        {{ __('app.password_reset.reset_button') }}
                     </x-button>
                 </form>
             </div>
